@@ -1,0 +1,144 @@
+{
+  "description": "Evaluation dataset containing clinical dictations with baseline ASR corruptions and clinical ground truth for abdominal ultrasound",
+  "version": "1.0.0",
+  "cases": [
+    {
+      "id": "CASE_ABD_001",
+      "organ_focus": "gallbladder",
+      "clinical_condition": "Acute cholecystitis with cholelithiasis",
+      "ground_truth": "Gallbladder demonstrates diffuse wall thickening measuring 4.5 millimeters with multiple mobile echogenic calculi in the lumen producing distinct posterior acoustic shadowing. Sonographic Murphy's sign is positive. Pericholecystic fluid is noted in the gallbladder bed.",
+      "raw_unbiased_transcription": "Gall bladder demonstrates diffuse wall thickening measuring four point five millimeters with multiple mobile echo genic call cul us in the lumen producing distinct posterior acoustic shadow. Sonographic murphys sign is positive. Peri cholecystic fluid is noted in the gall bladder bed.",
+      "target_anatomical_entities": [
+        "gallbladder",
+        "wall thickening",
+        "calculi",
+        "posterior acoustic shadowing",
+        "Murphy's sign",
+        "pericholecystic fluid"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "gallbladder wall thickness",
+          "value": 4.5,
+          "unit": "mm"
+        }
+      ],
+      "is_abnormal": true
+    },
+    {
+      "id": "CASE_ABD_002",
+      "organ_focus": "liver",
+      "clinical_condition": "Hepatic steatosis with focal hemangioma",
+      "ground_truth": "The liver shows increased diffuse parenchymal echogenicity consistent with moderate hepatic steatosis. There is mild posterior acoustic attenuation. In segment six of the right hepatic lobe, there is a well-circumscribed hyperechoic lesion measuring 1.8 centimeters, characteristic of a hepatic hemangioma. Portal vein remains patent.",
+      "raw_unbiased_transcription": "The liver shows increased diffuse parenchymal echo genicity consistent with moderate hepatic stea tosis. There is mild posterior acoustic attenuation. In segment six of the right hepatic lobe, there is a well-circumscribed hyper echoic lesion measuring one point eight centimeters, characteristic of a hepatic hemangioma. Portal vein remains patent.",
+      "target_anatomical_entities": [
+        "liver",
+        "hepatic steatosis",
+        "hyperechoic lesion",
+        "hepatic hemangioma",
+        "portal vein"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "lesion diameter",
+          "value": 1.8,
+          "unit": "cm"
+        }
+      ],
+      "is_abnormal": true
+    },
+    {
+      "id": "CASE_ABD_003",
+      "organ_focus": "kidneys",
+      "clinical_condition": "Right renal calculus and hydronephrosis",
+      "ground_truth": "Right kidney demonstrates moderate pyelocaliceal dilatation and hydronephrosis secondary to an obstructing 7 millimeter calculus in the right proximal ureter. Preserved corticomedullary differentiation. Left kidney is normal in size and cortical echogenicity without nephrolithiasis.",
+      "raw_unbiased_transcription": "Right kidney demonstrates moderate pyelo caliceal dilatation and hydro nephrosis secondary to an obstructing seven millimeter call cul us in the right proximal ureter. Preserved cortico medullary differentiation. Left kidney is normal in size and cortical echo genicity without nephro lithiasis.",
+      "target_anatomical_entities": [
+        "right kidney",
+        "hydronephrosis",
+        "pyelocaliceal dilatation",
+        "calculus",
+        "corticomedullary differentiation",
+        "left kidney",
+        "nephrolithiasis"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "calculus diameter",
+          "value": 7.0,
+          "unit": "mm"
+        }
+      ],
+      "is_abnormal": true
+    },
+    {
+      "id": "CASE_ABD_004",
+      "organ_focus": "aorta",
+      "clinical_condition": "Abdominal aortic aneurysm with mural thrombus",
+      "ground_truth": "Proximal abdominal aorta measures 2.1 centimeters. Infrarenal abdominal aorta demonstrates a fusiform aneurysm measuring 4.8 centimeters in maximal transverse diameter with concentric mural thrombus. No evidence of retroperitoneal hematoma.",
+      "raw_unbiased_transcription": "Proximal abdominal aorta measures two point one centimeters. Infra renal abdominal aorta demonstrates a fusiform aneurysm measuring four point eight centimeters in maximal transverse diameter with concentric mural thrombus. No evidence of retro peritoneal hematoma.",
+      "target_anatomical_entities": [
+        "abdominal aorta",
+        "fusiform aneurysm",
+        "mural thrombus",
+        "retroperitoneal hematoma"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "proximal aorta diameter",
+          "value": 2.1,
+          "unit": "cm"
+        },
+        {
+          "parameter": "aneurysm max diameter",
+          "value": 4.8,
+          "unit": "cm"
+        }
+      ],
+      "is_abnormal": true
+    },
+    {
+      "id": "CASE_ABD_005",
+      "organ_focus": "spleen_and_peritoneum",
+      "clinical_condition": "Splenomegaly with free fluid in Morison's pouch",
+      "ground_truth": "Spleen is enlarged with craniocaudal length measuring 14.2 centimeters consistent with moderate splenomegaly. Parenchymal echotexture is homogeneous. Trace anechoic free fluid is visualized in Morison's pouch and splenorenal recess.",
+      "raw_unbiased_transcription": "Spleen is enlarged with craniocaudal length measuring fourteen point two centimeters consistent with moderate spleno megaly. Parenchymal echo texture is homogeneous. Trace an echoic free fluid is visualized in morrisons pouch and splenorenal recess.",
+      "target_anatomical_entities": [
+        "spleen",
+        "splenomegaly",
+        "anechoic free fluid",
+        "Morison's pouch",
+        "splenorenal recess"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "craniocaudal length",
+          "value": 14.2,
+          "unit": "cm"
+        }
+      ],
+      "is_abnormal": true
+    },
+    {
+      "id": "CASE_ABD_006",
+      "organ_focus": "pancreas",
+      "clinical_condition": "Normal abdominal ultrasound study",
+      "ground_truth": "Pancreatic head, body, and visualized portion of the tail appear normal in size and echogenicity. Main pancreatic duct is non-dilated measuring 1.5 millimeters. No focal pancreatic mass, pseudocyst, or peripancreatic fluid collection.",
+      "raw_unbiased_transcription": "Pancreatic head, body, and visualized portion of the tail appear normal in size and echo genicity. Main pancreatic duct is non dilated measuring one point five millimeters. No focal pancreatic mass, pseudocyst, or peri pancreatic fluid collection.",
+      "target_anatomical_entities": [
+        "pancreas",
+        "main pancreatic duct",
+        "pseudocyst",
+        "peripancreatic fluid collection"
+      ],
+      "target_measurements": [
+        {
+          "parameter": "pancreatic duct caliber",
+          "value": 1.5,
+          "unit": "mm"
+        }
+      ],
+      "is_abnormal": false
+    }
+  ]
+}

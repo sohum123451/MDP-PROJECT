@@ -1,0 +1,361 @@
+{
+  "project": "EchoScribe-AI / SonoAssist",
+  "domain": "Abdominal Ultrasound Examination",
+  "version": "1.0.0",
+  "categories": {
+    "hepatic": {
+      "name": "Liver / Hepatic System",
+      "primary_organ": "liver",
+      "anatomical_structures": [
+        "liver parenchyma",
+        "right hepatic lobe",
+        "left hepatic lobe",
+        "caudate lobe",
+        "quadrate lobe",
+        "portal vein",
+        "main portal vein",
+        "right portal vein",
+        "left portal vein",
+        "hepatic artery",
+        "hepatic veins",
+        "middle hepatic vein",
+        "ligamentum teres",
+        "ligamentum venosum",
+        "glisson's capsule",
+        "riedel's lobe"
+      ],
+      "echogenicity_descriptors": [
+        "hyperechoic",
+        "hypoechoic",
+        "isoechoic",
+        "anechoic",
+        "heterogeneous echotexture",
+        "homogeneous echotexture",
+        "increased parenchymal echogenicity",
+        "posterior attenuation",
+        "decreased vascular visualization"
+      ],
+      "pathologies_and_findings": [
+        "steatosis",
+        "hepatic steatosis",
+        "fatty liver disease",
+        "diffuse hepatocellular disease",
+        "cirrhosis",
+        "hepatomegaly",
+        "focal nodular hyperplasia",
+        "hepatic hemangioma",
+        "hepatic cyst",
+        "simple hepatic cyst",
+        "hepatocellular carcinoma",
+        "metastatic lesion",
+        "periportal cuffing",
+        "capsular nodularity",
+        "portal hypertension"
+      ],
+      "measurements": [
+        "craniocaudal span",
+        "portal vein diameter",
+        "sagittal length"
+      ]
+    },
+    "biliary": {
+      "name": "Gallbladder & Biliary Tree",
+      "primary_organ": "gallbladder",
+      "anatomical_structures": [
+        "gallbladder lumen",
+        "gallbladder neck",
+        "gallbladder body",
+        "gallbladder fundus",
+        "gallbladder wall",
+        "cystic duct",
+        "common bile duct",
+        "intrahepatic bile ducts",
+        "extrahepatic bile ducts",
+        "porta hepatis",
+        "hartmann's pouch",
+        "spiral valves of heister"
+      ],
+      "echogenicity_descriptors": [
+        "anechoic lumen",
+        "acoustic shadowing",
+        "posterior acoustic shadowing",
+        "reverberation artifact",
+        "ring-down artifact",
+        "comet-tail artifact"
+      ],
+      "pathologies_and_findings": [
+        "cholelithiasis",
+        "gallstone",
+        "calculus",
+        "cholecystitis",
+        "acute cholecystitis",
+        "chronic cholecystitis",
+        "choledocholithiasis",
+        "biliary sludge",
+        "sludge ball",
+        "gallbladder wall thickening",
+        "pericholecystic fluid",
+        "sonographic murphy's sign",
+        "positive murphy's sign",
+        "biliary dilatation",
+        "intrahepatic biliary ductal dilatation",
+        "cholesterol polyp",
+        "adenomyomatosis",
+        "porcelain gallbladder"
+      ],
+      "measurements": [
+        "gallbladder wall thickness",
+        "common bile duct diameter",
+        "lumen diameter"
+      ]
+    },
+    "renal": {
+      "name": "Kidneys / Urinary Tract",
+      "primary_organ": "kidney",
+      "anatomical_structures": [
+        "right kidney",
+        "left kidney",
+        "renal cortex",
+        "renal medulla",
+        "renal pyramids",
+        "renal sinus",
+        "renal pelvis",
+        "renal calyces",
+        "major calyces",
+        "minor calyces",
+        "corticomedullary junction",
+        "column of bertin",
+        "renal capsule",
+        "gerota's fascia",
+        "perinephric fat",
+        "renal hilum",
+        "main renal artery",
+        "main renal vein",
+        "interlobar vessels",
+        "ureter"
+      ],
+      "echogenicity_descriptors": [
+        "corticomedullary differentiation",
+        "normal corticomedullary differentiation",
+        "loss of corticomedullary differentiation",
+        "cortical echogenicity",
+        "increased cortical echogenicity",
+        "acoustic shadowing",
+        "posterior acoustic enhancement",
+        "twinkle artifact"
+      ],
+      "pathologies_and_findings": [
+        "nephrolithiasis",
+        "renal calculus",
+        "renal calculi",
+        "hydronephrosis",
+        "mild hydronephrosis",
+        "moderate hydronephrosis",
+        "severe hydronephrosis",
+        "pyelocaliceal dilatation",
+        "cortical thinning",
+        "medical renal disease",
+        "chronic kidney disease",
+        "simple renal cyst",
+        "complex renal cyst",
+        "bosniak classification",
+        "angiomyolipoma",
+        "renal cell carcinoma",
+        "perinephric hematoma",
+        "ureteral jet"
+      ],
+      "measurements": [
+        "pole-to-pole length",
+        "bipolar length",
+        "cortical thickness",
+        "parenchymal thickness",
+        "calculus diameter",
+        "resistive index"
+      ]
+    },
+    "splenic": {
+      "name": "Spleen",
+      "primary_organ": "spleen",
+      "anatomical_structures": [
+        "splenic parenchyma",
+        "splenic capsule",
+        "splenic hilum",
+        "splenic vein",
+        "splenic artery",
+        "accessory spleen"
+      ],
+      "echogenicity_descriptors": [
+        "homogeneous echotexture",
+        "isoechoic to normal renal cortex",
+        "splenomegaly"
+      ],
+      "pathologies_and_findings": [
+        "splenomegaly",
+        "mild splenomegaly",
+        "splenic cyst",
+        "splenic infarction",
+        "splenic laceration",
+        "splenic granuloma",
+        "calcified splenic granuloma",
+        "splenic hemangioma",
+        "subcapsular hematoma"
+      ],
+      "measurements": [
+        "craniocaudal length",
+        "splenic index",
+        "transverse dimension"
+      ]
+    },
+    "pancreatic": {
+      "name": "Pancreas",
+      "primary_organ": "pancreas",
+      "anatomical_structures": [
+        "pancreatic head",
+        "pancreatic neck",
+        "pancreatic body",
+        "pancreatic tail",
+        "uncinate process",
+        "main pancreatic duct",
+        "duct of wirsung",
+        "splenic vein confluence",
+        "superior mesenteric artery",
+        "superior mesenteric vein"
+      ],
+      "echogenicity_descriptors": [
+        "normal echogenicity",
+        "hyperechoic relative to liver",
+        "atrophic parenchyma",
+        "heterogeneous parenchyma",
+        "obscured by overlying bowel gas"
+      ],
+      "pathologies_and_findings": [
+        "pancreatitis",
+        "acute pancreatitis",
+        "chronic pancreatitis",
+        "pancreatic pseudocyst",
+        "peripancreatic fluid collection",
+        "pancreatic ductal dilatation",
+        "pancreatic mass",
+        "pancreatic ductal adenocarcinoma",
+        "parenchymal calcifications"
+      ],
+      "measurements": [
+        "head anteroposterior diameter",
+        "body diameter",
+        "tail diameter",
+        "pancreatic duct caliber"
+      ]
+    },
+    "vascular_retroperitoneal": {
+      "name": "Aorta, IVC & Retroperitoneum",
+      "primary_organ": "aorta",
+      "anatomical_structures": [
+        "abdominal aorta",
+        "proximal abdominal aorta",
+        "mid abdominal aorta",
+        "distal abdominal aorta",
+        "aortic bifurcation",
+        "common iliac arteries",
+        "celiac axis",
+        "superior mesenteric artery",
+        "inferior vena cava",
+        "hepatic vein confluence"
+      ],
+      "echogenicity_descriptors": [
+        "anechoic lumen",
+        "calcified atherosclerotic plaque",
+        "intraluminal echogenic thrombus",
+        "mural calcifications"
+      ],
+      "pathologies_and_findings": [
+        "abdominal aortic aneurysm",
+        "aortic ectasia",
+        "fusiform aneurysm",
+        "saccular aneurysm",
+        "mural thrombus",
+        "aortic dissection",
+        "intimal flap",
+        "ivc thrombosis",
+        "ivc dilatation",
+        "diminished respiratory collapsibility",
+        "retroperitoneal lymphadenopathy"
+      ],
+      "measurements": [
+        "anteroposterior diameter",
+        "transverse diameter",
+        "aneurysm max diameter",
+        "ivc inspiratory diameter",
+        "ivc expiratory diameter"
+      ]
+    },
+    "peritoneal_spaces": {
+      "name": "Peritoneal Cavity & Recesses",
+      "primary_organ": "peritoneum",
+      "anatomical_structures": [
+        "morison's pouch",
+        "hepatorenal recess",
+        "splenorenal recess",
+        "subdiaphragmatic space",
+        "right paracolic gutter",
+        "left paracolic gutter",
+        "rectovesical pouch",
+        "pouch of douglas",
+        "pelvic cul-de-sac"
+      ],
+      "echogenicity_descriptors": [
+        "free anechoic fluid",
+        "particulate fluid",
+        "septated fluid"
+      ],
+      "pathologies_and_findings": [
+        "ascites",
+        "free peritoneal fluid",
+        "hemoperitoneum",
+        "loculated ascites",
+        "peritoneal carcinomatosis"
+      ],
+      "measurements": [
+        "fluid pocket depth",
+        "quadrant fluid assessment"
+      ]
+    }
+  },
+  "clinical_modifiers": [
+    "normal",
+    "unremarkable",
+    "within normal limits",
+    "mild",
+    "moderate",
+    "severe",
+    "acute",
+    "chronic",
+    "focal",
+    "diffuse",
+    "circumscribed",
+    "ill-defined",
+    "well-defined",
+    "calcified",
+    "non-calcified",
+    "mobile",
+    "non-mobile",
+    "dependent",
+    "attenuated",
+    "dilated",
+    "patent",
+    "occluded",
+    "vascularity present",
+    "avascular"
+  ],
+  "measurement_units": [
+    "mm",
+    "millimeter",
+    "millimeters",
+    "cm",
+    "centimeter",
+    "centimeters",
+    "m/s",
+    "meters per second",
+    "cm/s",
+    "centimeters per second"
+  ]
+}
