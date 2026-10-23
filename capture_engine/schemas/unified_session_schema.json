@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UnifiedUltrasoundSessionSchema",
+  "description": "Standardized schema for multimodal ultrasound capture sessions integrating CSE Core 1, CSE Core 2, CSE DS, IT, and Health Science",
+  "type": "object",
+  "required": [
+    "session_id",
+    "timestamp",
+    "operator_id",
+    "patient_anon_id",
+    "captured_frames",
+    "audio_metadata",
+    "dictation_stream",
+    "structured_report"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique session UUID or prefixed identifier (e.g. SESS_20261023_001)"
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "UNIX epoch timestamp in seconds"
+    },
+    "operator_id": {
+      "type": "string",
+      "description": "Sonographer or Radiologist identifier"
+    },
+    "patient_anon_id": {
+      "type": "string",
+      "description": "Anonymized patient research subject identifier"
+    },
+    "captured_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["frame_id", "timestamp_offset_ms", "frame_path", "target_organ"],
+        "properties": {
+          "frame_id": {"type": "string"},
+          "timestamp_offset_ms": {"type": "number"},
+          "frame_path": {"type": "string"},
+          "target_organ": {"type": "string"},
+          "resolution": {
+            "type": "object",
+            "properties": {
+              "width": {"type": "integer"},
+              "height": {"type": "integer"}
+            }
+          },
+          "trigger_source": {
+            "type": "string",
+            "enum": ["hardware_foot_pedal", "keyboard_hotkey", "ui_button", "timed_interval"]
+          },
+          "calipers_data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {"type": "string"},
+                "measurement_value": {"type": "number"},
+                "unit": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "audio_metadata": {
+      "type": "object",
+      "properties": {
+        "sample_rate": {"type": "integer"},
+        "channels": {"type": "integer"},
+        "duration_seconds": {"type": "number"},
+        "snr_db": {"type": "number"},
+        "vad_speech_ratio": {"type": "number"}
+      }
+    },
+    "dictation_stream": {
+      "type": "object",
+      "properties": {
+        "raw_transcript": {"type": "string"},
+        "biased_transcript": {"type": "string"},
+        "segments": {"type": "array"}
+      }
+    },
+    "structured_report": {
+      "type": "object",
+      "properties": {
+        "organ_findings": {"type": "array"},
+        "acr_template_compliance": {"type": "boolean"},
+        "overall_impression": {"type": "string"}
+      }
+    }
+  }
+}
