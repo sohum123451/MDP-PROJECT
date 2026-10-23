@@ -31,6 +31,10 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
         Radiologist Review &amp; Correct
       </button>
+      <button class="nav-tab" data-tab="asr-lab-mode" id="tab-btn-asr">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        🎙️ Speech-to-Text Lab (Sohum CSE2)
+      </button>
       <button class="nav-tab" data-tab="presentation-mode" id="tab-btn-presentation">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         Review-II Presentation (To Ma'am)
@@ -104,11 +108,17 @@
               <div class="waveform-bar active" style="height: 50%"></div>
             </div>
             <div class="audio-controls">
-              <button class="btn-icon" id="play-pause-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn-icon" id="play-pause-btn" title="Play Synchronous Audio">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+                <button class="btn-sm btn-outline" id="live-mic-btn" style="display: flex; align-items: center; gap: 4px;">
+                  <span>🎙️</span>
+                  <span id="live-mic-text">Live Mic Dictation</span>
+                </button>
+              </div>
               <div class="telemetry-chip">
-                <span>VAD Active: 85%</span>
+                <span>VAD: 85%</span>
                 <span>SNR: 28.5 dB</span>
               </div>
             </div>
@@ -119,19 +129,26 @@
             <div class="stream-header">
               <div class="stream-title">
                 <span class="pulse-indicator"></span>
-                <span>Biased Speech Stream (Member 2: Sohum)</span>
+                <span>Biased Speech-to-Text (Sohum CSE2)</span>
               </div>
-              <span class="chip-latency" id="stream-latency-chip">Latency: 9.2 ms</span>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <span class="chip-latency" id="stream-latency-chip">Latency: 9.2 ms</span>
+                <button class="btn-sm btn-outline" id="open-asr-lab-quick-btn" style="padding: 1px 6px; font-size: 0.65rem;">Full Lab &rarr;</button>
+              </div>
             </div>
             <div class="stream-transcript-box" id="live-stream-box">
               <p class="stream-line">
-                <span class="badge-raw">RAW ASR:</span>
-                <span class="text-raw">Gall bladder demonstrates diffuse wall thickening measuring four point five millimeters with multiple call cul us...</span>
+                <span class="badge-raw">RAW ASR (GENERIC):</span>
+                <span class="text-raw" id="stream-text-raw">Gall bladder demonstrates diffuse wall thickening measuring four point five millimeters with multiple call cul us...</span>
               </p>
               <p class="stream-line">
-                <span class="badge-biased">BIASED:</span>
-                <span class="text-biased">Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple <strong class="highlight-anat">calculi</strong> in the lumen producing distinct <strong class="highlight-anat">posterior acoustic shadowing</strong>.</span>
+                <span class="badge-biased">BIASED ASR (ECHOSCRIBE):</span>
+                <span class="text-biased" id="stream-text-biased">Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple <strong class="highlight-anat">calculi</strong> in the lumen producing distinct <strong class="highlight-anat">posterior acoustic shadowing</strong>.</span>
               </p>
+            </div>
+            <div style="margin-top: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <button class="btn-sm btn-outline" id="stream-replay-btn" style="font-size: 0.68rem;">▶ Stream Word-by-Word</button>
+              <span style="font-size: 0.65rem; color: var(--accent-emerald); font-family: var(--font-mono);">WER: 15.8% (-44.5%)</span>
             </div>
           </div>
         </div>
@@ -191,6 +208,178 @@
           <div class="audit-stream" id="audit-feed-box">
             <!-- Populated live via JS -->
           </div>
+        </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB: SPEECH-TO-TEXT & CLINICAL ASR LAB (MEMBER 2: SOHUM) -->
+    <!-- ======================================================== -->
+    <section id="asr-lab-mode" class="tab-pane">
+      <div class="asr-lab-container">
+        
+        <!-- Top Controls Bar -->
+        <div class="lab-controls-card">
+          <div class="lab-title-box">
+            <div class="avatar cse2">S</div>
+            <div>
+              <h2>Member 2: Anatomical Vocabulary-Biased Speech-to-Text Lab</h2>
+              <p>Speech Models, Pre-Emphasis Audio Filter, Phonetic Dictionary &amp; Clinical Biasing</p>
+            </div>
+          </div>
+
+          <div class="lab-actions">
+            <div class="case-selector-box">
+              <label for="asr-case-select">Select Clinical Case:</label>
+              <select id="asr-case-select" class="rbac-select" style="padding: 6px 12px; font-size: 0.8rem;">
+                <option value="CASE_ABD_001" selected>Case 1: Gallbladder (Cholecystitis &amp; Cholelithiasis)</option>
+                <option value="CASE_ABD_002">Case 2: Liver (Hepatic Steatosis &amp; Hemangioma)</option>
+                <option value="CASE_ABD_003">Case 3: Right Kidney (Calculus &amp; Hydronephrosis)</option>
+                <option value="CASE_ABD_004">Case 4: Abdominal Aorta (Aneurysm &amp; Mural Thrombus)</option>
+                <option value="CASE_ABD_005">Case 5: Spleen (Splenomegaly &amp; Morison's Pouch)</option>
+              </select>
+            </div>
+
+            <button class="btn-primary" id="lab-mic-btn" style="display: flex; align-items: center; gap: 6px;">
+              <span>🎙️</span>
+              <span id="lab-mic-text">Start Live Mic</span>
+            </button>
+            <button class="btn-primary btn-outline" id="lab-simulate-btn">
+              ▶ Transcribe Case
+            </button>
+            <button class="btn-sm btn-outline" id="push-to-editor-btn">
+              ⚡ Push Findings to Report Editor &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="asr-kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Clinical Term WER (c-WER)</span>
+            <div class="kpi-value-row">
+              <span class="kpi-before">31.4%</span>
+              <span class="kpi-arrow">&rarr;</span>
+              <span class="kpi-after text-accent" id="lab-cwer-val">13.6%</span>
+            </div>
+            <span class="kpi-badge text-success">&darr; 56.6% Error Reduction</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">Overall Word Error Rate (WER)</span>
+            <div class="kpi-value-row">
+              <span class="kpi-before">28.6%</span>
+              <span class="kpi-arrow">&rarr;</span>
+              <span class="kpi-after" id="lab-wer-val">15.8%</span>
+            </div>
+            <span class="kpi-badge text-success">&darr; 44.5% Relative Gain</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">Streaming Turnaround Latency</span>
+            <div class="kpi-value-row">
+              <span class="kpi-after text-accent" id="lab-latency-val">9.2 ms</span>
+            </div>
+            <span class="kpi-badge">Real-Time Factor: 0.0095</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">Spoken Metric Normalization</span>
+            <div class="kpi-value-row">
+              <span class="kpi-after text-success">100.0%</span>
+            </div>
+            <span class="kpi-badge">Regex Spoken Number Parser</span>
+          </div>
+        </div>
+
+        <!-- Live Side-by-Side Comparison Grid -->
+        <div class="asr-comparison-grid">
+          
+          <!-- Box A: Standard Unbiased ASR -->
+          <div class="comparison-card raw-card">
+            <div class="comparison-header">
+              <div class="comp-title">
+                <span class="badge-raw">OFF-THE-SHELF ASR (UNBIASED WHISPER / GENERIC STT)</span>
+              </div>
+              <span class="error-pill" id="lab-raw-errors-count">4 Terminology Errors</span>
+            </div>
+            <div class="comparison-body" id="lab-raw-text-box">
+              Gall bladder demonstrates diffuse wall thickening measuring <span class="err-text">four point five millimeters</span> with multiple mobile echo genic <span class="err-text">call cul us</span> in the lumen producing distinct posterior <span class="err-text">acoustic shadow</span>. Sonographic <span class="err-text">murphys sign</span> is positive. <span class="err-text">Peri cholecystic</span> fluid is noted in the gall bladder bed.
+            </div>
+            <div class="comparison-footer">
+              <span class="footer-note">Notice: Misclassifies anatomical homophones and fails to standardize metric measurements.</span>
+            </div>
+          </div>
+
+          <!-- Box B: EchoScribe Anatomically-Biased ASR -->
+          <div class="comparison-card biased-card">
+            <div class="comparison-header">
+              <div class="comp-title">
+                <span class="badge-biased">ECHOSCRIBE ANATOMICALLY-BIASED ASR (MEMBER 2: SOHUM)</span>
+              </div>
+              <span class="success-pill">Biased &amp; Rescued</span>
+            </div>
+            <div class="comparison-body" id="lab-biased-text-box">
+              Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple mobile echogenic <strong class="highlight-anat">calculi</strong> in the lumen producing distinct posterior <strong class="highlight-anat">acoustic shadowing</strong>. Sonographic <strong class="highlight-anat">Murphy's sign</strong> is positive. <strong class="highlight-anat">Pericholecystic fluid</strong> is noted in the gallbladder bed.
+            </div>
+            <div class="comparison-footer">
+              <span class="footer-note text-success">&check; Rescued via Prefix Prompt Conditioning, Hotword Boosting &amp; Phonetic Disambiguation.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Phonetic Dictionary Rescued Terms Table -->
+        <div class="phonetic-table-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <span>Phonetic Medical Dictionary &amp; Homophone Disambiguation Log</span>
+            </div>
+            <span class="badge-pill">Soundex + Levenshtein Engine</span>
+          </div>
+
+          <table class="presentation-table" style="margin-top: 0;">
+            <thead>
+              <tr>
+                <th>Acoustic Input (Misrecognized)</th>
+                <th>Phonetic Soundex Key</th>
+                <th>Disambiguation Strategy</th>
+                <th>Rescued Clinical Term</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="phonetic-corrections-tbody">
+              <tr>
+                <td><code>call cul us</code> / <code>cal cul us</code></td>
+                <td><code>K424</code></td>
+                <td>Phonetic Homophone Mapping</td>
+                <td><strong class="highlight-anat">calculus / calculi</strong></td>
+                <td><span class="status-done">&check; Rescued</span></td>
+              </tr>
+              <tr>
+                <td><code>four point five millimeters</code></td>
+                <td><code>NUM_UNIT</code></td>
+                <td>Regex Spoken Metric Parser</td>
+                <td><strong class="highlight-meas">4.5 mm</strong></td>
+                <td><span class="status-done">&check; Normalized</span></td>
+              </tr>
+              <tr>
+                <td><code>acoustic shadow</code></td>
+                <td><code>A223</code></td>
+                <td>N-Gram Hotword Boosting</td>
+                <td><strong class="highlight-anat">posterior acoustic shadowing</strong></td>
+                <td><span class="status-done">&check; Rescued</span></td>
+              </tr>
+              <tr>
+                <td><code>murphys sign</code></td>
+                <td><code>M612</code></td>
+                <td>Ultrasound Lexicon Match</td>
+                <td><strong class="highlight-anat">Murphy's sign</strong></td>
+                <td><span class="status-done">&check; Standardized</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
       </div>
