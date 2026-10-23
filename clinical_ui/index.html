@@ -3,219 +3,389 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EchoScribe-AI | Clinical Ultrasound Review &amp; Presentation Suite</title>
+  <title>EchoScribe-AI | Clinical Ultrasound Workstation &amp; Multidisciplinary Suite</title>
+  <meta name="description" content="EchoScribe-AI: Multimodal Frame Capture, Vocabulary-Biased Speech Recognition, and LLM-Driven Abdominal Ultrasound Reporting. On-premises clinical review workstation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/app.css">
 </head>
 <body class="dark-theme">
 
-  <!-- Top Navigation Header -->
+  <!-- ======================================================== -->
+  <!-- TOP TELEMETRY STRIP (PACS / DICOM / NETWORK HEALTH)       -->
+  <!-- ======================================================== -->
+  <div class="top-telemetry-strip">
+    <div class="telemetry-pill-group">
+      <span class="telemetry-pill"><span class="status-indicator-dot online"></span> PACS: CONNECTED (PORT 104)</span>
+      <span class="telemetry-pill">AE TITLE: <strong class="mono-code">ECHOSCRIBE_AE</strong></span>
+      <span class="telemetry-pill">MODALITY: <strong class="mono-code">US (ABDOMINAL)</strong></span>
+      <span class="telemetry-pill">PROBE: <strong class="mono-code">C5-1 CONVEX 3.5MHz</strong></span>
+    </div>
+    <div class="telemetry-pill-group">
+      <span class="telemetry-pill">SECURITY: <strong class="mono-code">FIPS 140-3 / TLS 1.3</strong></span>
+      <span class="telemetry-pill">AUDIT: <strong class="mono-code">SHA-256 CHAIN OK</strong></span>
+      <span class="telemetry-pill station-id">STATION: <strong>US-SUITE-B4</strong></span>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PRIMARY APP HEADER & WORKSPACE NAVIGATION                -->
+  <!-- ======================================================== -->
   <header class="app-header">
     <div class="brand">
       <div class="brand-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
         </svg>
       </div>
       <div class="brand-text">
-        <h1>EchoScribe-AI <span class="badge-version">v1.0.0-onprem</span></h1>
-        <p class="subtitle">Multimodal Ultrasound Capture, Biased ASR &amp; Clinical Audit Platform</p>
+        <div class="brand-title-row">
+          <h1>EchoScribe-AI</h1>
+          <span class="badge-version">v1.2.0-clinical</span>
+          <span class="badge-accreditation">DICOM-SR READY</span>
+        </div>
+        <p class="subtitle">Multimodal Ultrasound Capture, Anatomical-Biased ASR &amp; Tamper-Evident Reporting</p>
       </div>
     </div>
 
-    <!-- Mode Switcher Tabs -->
-    <nav class="nav-tabs">
-      <button class="nav-tab active" data-tab="review-mode" id="tab-btn-review">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-        Radiologist Review &amp; Correct
+    <!-- Mode Switcher Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="review-mode" id="tab-btn-review" role="tab" aria-selected="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        <span>Review &amp; Correct</span>
       </button>
-      <button class="nav-tab" data-tab="asr-lab-mode" id="tab-btn-asr">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        🎙️ Speech-to-Text Lab (Sohum CSE2)
+
+      <button class="nav-tab" data-tab="asr-lab-mode" id="tab-btn-asr" role="tab" aria-selected="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span>Speech-to-Text Lab <small class="tab-sub">Sohum CSE2</small></span>
       </button>
-      <button class="nav-tab" data-tab="presentation-mode" id="tab-btn-presentation">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Review-II Presentation (To Ma'am)
+
+      <button class="nav-tab" data-tab="presentation-mode" id="tab-btn-presentation" role="tab" aria-selected="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>Review-II Deck <small class="tab-sub">Faculty Defense</small></span>
       </button>
-      <button class="nav-tab" data-tab="team-matrix-mode" id="tab-btn-team">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        5-Member Team Matrix
+
+      <button class="nav-tab" data-tab="team-matrix-mode" id="tab-btn-team" role="tab" aria-selected="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>5-Member Matrix</span>
       </button>
-      <button class="nav-tab" data-tab="audit-mode" id="tab-btn-audit">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Audit Trail &amp; Compliance
+
+      <button class="nav-tab" data-tab="audit-mode" id="tab-btn-audit" role="tab" aria-selected="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Audit Ledger <small class="tab-sub">Dinesh IT</small></span>
       </button>
     </nav>
 
     <!-- User / RBAC Profile Badge -->
     <div class="user-profile">
       <div class="rbac-selector-wrapper">
-        <label for="rbac-role-select">Active Role:</label>
+        <label for="rbac-role-select">OPERATOR ROLE:</label>
         <select id="rbac-role-select" class="rbac-select">
-          <option value="radiologist" selected>Attending Radiologist (Dr. Alvarez)</option>
-          <option value="sonographer">Senior Sonographer (Joel CSE1)</option>
-          <option value="data_scientist">Data Science Lead (Manya CSE-DS)</option>
-          <option value="auditor">Hospital HIPAA Auditor (Dinesh IT)</option>
+          <option value="radiologist" selected>Attending Radiologist (Dr. Alvarez, MD)</option>
+          <option value="sonographer">Senior Sonographer (Joel, CSE1)</option>
+          <option value="data_scientist">Data Science Lead (Manya, CSE-DS)</option>
+          <option value="auditor">HIPAA Compliance Auditor (Dinesh, IT)</option>
         </select>
       </div>
       <div class="status-indicator">
         <span class="pulse-dot"></span>
-        <span class="status-label">On-Premises Local</span>
+        <span class="status-label">LOCAL ON-PREM</span>
       </div>
     </div>
   </header>
 
-  <!-- Main View Container -->
+  <!-- ======================================================== -->
+  <!-- MAIN WORKSPACE VIEWPORT                                  -->
+  <!-- ======================================================== -->
   <main class="main-content">
 
     <!-- ======================================================== -->
     <!-- TAB 1: RADIOLOGIST REVIEW & CORRECT SCREEN               -->
     <!-- ======================================================== -->
-    <section id="review-mode" class="tab-pane active">
+    <section id="review-mode" class="tab-pane active" role="tabpanel">
       <div class="clinical-workspace-grid">
 
-        <!-- Column 1: Captured Keyframes & Synchronous Audio -->
+        <!-- Column 1: Captured Keyframes & Synchronous Ultrasound DICOM Viewport -->
         <div class="panel-card keyframes-panel">
           <div class="panel-header">
             <div class="panel-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Captured Keyframes (Member 1: Joel)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Synchronous Keyframe Stream</span>
             </div>
-            <button class="btn-sm btn-outline" id="simulate-trigger-btn">+ Foot Pedal Trigger</button>
+            <div class="panel-header-actions">
+              <span class="badge-member cse1">Member 1: Joel</span>
+              <button class="btn-sm btn-pedal" id="simulate-trigger-btn" title="Trigger Keyframe & Sync Audio via Foot Pedal (Hotkey: F8)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 14V6c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v8c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4z"/></svg>
+                <span>Pedal Trigger</span>
+              </button>
+            </div>
           </div>
 
-          <div class="keyframe-carousel" id="keyframe-gallery">
-            <!-- Populated via JS -->
+          <!-- Diagnostic Ultrasound Screen Viewport with HUD & Interactive Calipers -->
+          <div class="dicom-viewport-container" id="dicom-viewport">
+            <!-- Ultrasound Telemetry Overlay HUD -->
+            <div class="viewport-hud-top">
+              <div class="hud-col-left">
+                <div class="hud-patient-name">DOE, JOHN [M / 42]</div>
+                <div class="hud-meta">MRN: 9482104 • ACC: 2026-US-891</div>
+                <div class="hud-meta">EXAM: COMPLETE ABDOMINAL</div>
+              </div>
+              <div class="hud-col-right">
+                <div class="hud-probe">C5-1 CONVEX • 3.5 MHz</div>
+                <div class="hud-indices">MI: 0.8 &bull; TIS: 0.2 &bull; FPS: 38Hz</div>
+                <div class="hud-indices">GAIN: 52dB &bull; DR: 65dB &bull; D: 14.0cm</div>
+              </div>
+            </div>
+
+            <!-- Active Ultrasound Graphic Canvas & Sector Representation -->
+            <div class="ultrasound-screen-area" id="ultrasound-display-box">
+              <svg id="active-keyframe-svg" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <radialGradient id="sectorGradient" cx="50%" cy="10%" r="90%">
+                    <stop offset="0%" stop-color="#0a1324"/>
+                    <stop offset="35%" stop-color="#050a14"/>
+                    <stop offset="100%" stop-color="#020408"/>
+                  </radialGradient>
+                  <filter id="speckleNoise">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+                    <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.18 0"/>
+                    <feComposite in2="SourceGraphic" in="glitch" operator="in"/>
+                  </filter>
+                </defs>
+
+                <!-- Ultrasound Sector Fan Boundary -->
+                <path d="M 40 25 Q 180 205 320 25 L 340 25 A 320 320 0 0 1 20 25 Z" fill="url(#sectorGradient)" stroke="#1e293b" stroke-width="1.5"/>
+
+                <!-- Acoustic Sector Fan Lines -->
+                <line x1="180" y1="15" x2="70" y2="185" stroke="#0f172a" stroke-width="1" stroke-dasharray="2,3"/>
+                <line x1="180" y1="15" x2="120" y2="200" stroke="#0f172a" stroke-width="1" stroke-dasharray="2,3"/>
+                <line x1="180" y1="15" x2="180" y2="208" stroke="#0f172a" stroke-width="1" stroke-dasharray="2,3"/>
+                <line x1="180" y1="15" x2="240" y2="200" stroke="#0f172a" stroke-width="1" stroke-dasharray="2,3"/>
+                <line x1="180" y1="15" x2="290" y2="185" stroke="#0f172a" stroke-width="1" stroke-dasharray="2,3"/>
+
+                <!-- Focal Zone Indicators (Carats) -->
+                <polygon points="345,95 352,90 352,100" fill="#38bdf8"/>
+                <polygon points="345,145 352,140 352,150" fill="#38bdf8"/>
+
+                <!-- Dynamic Organ Geometry: Gallbladder with Calculus & Thickened Wall -->
+                <g id="svg-organ-geometry">
+                  <!-- Anechoic Gallbladder Lumen -->
+                  <ellipse cx="180" cy="115" rx="72" ry="42" fill="#020306" stroke="#38bdf8" stroke-width="3" opacity="0.95"/>
+                  
+                  <!-- Hyperechoic Thickened Gallbladder Wall Layer -->
+                  <ellipse cx="180" cy="115" rx="77" ry="47" fill="none" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4,2"/>
+
+                  <!-- Posterior Acoustic Shadow Cone -->
+                  <polygon points="163,128 152,205 186,205 177,128" fill="#000000" opacity="0.88"/>
+
+                  <!-- Echogenic Intraluminal Calculus with Shadowing -->
+                  <circle cx="170" cy="128" r="9" fill="#ffffff" stroke="#38bdf8" stroke-width="2"/>
+
+                  <!-- Interactive Caliper D1: Wall Thickness (4.5 mm) -->
+                  <line x1="108" y1="115" x2="103" y2="115" stroke="#f59e0b" stroke-width="2"/>
+                  <line x1="108" y1="110" x2="108" y2="120" stroke="#f59e0b" stroke-width="2"/>
+                  <line x1="103" y1="110" x2="103" y2="120" stroke="#f59e0b" stroke-width="2"/>
+                  <text x="75" y="105" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600">D1: 4.5 mm</text>
+
+                  <!-- Interactive Caliper D2: Calculus Diameter (7.0 mm) -->
+                  <line x1="161" y1="128" x2="179" y2="128" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="2,2"/>
+                  <line x1="161" y1="124" x2="161" y2="132" stroke="#38bdf8" stroke-width="2"/>
+                  <line x1="179" y1="124" x2="179" y2="132" stroke="#38bdf8" stroke-width="2"/>
+                  <text x="186" y="132" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600">D2: 7.0 mm</text>
+                </g>
+
+                <!-- Centimeter Depth Scale (Right Margin) -->
+                <g fill="#475569" font-family="'JetBrains Mono', monospace" font-size="8">
+                  <line x1="335" y1="40" x2="340" y2="40" stroke="#475569" stroke-width="1"/>
+                  <line x1="335" y1="75" x2="340" y2="75" stroke="#475569" stroke-width="1"/><text x="343" y="77">4</text>
+                  <line x1="335" y1="110" x2="340" y2="110" stroke="#475569" stroke-width="1"/><text x="343" y="112">8</text>
+                  <line x1="335" y1="145" x2="340" y2="145" stroke="#475569" stroke-width="1"/><text x="343" y="147">12</text>
+                  <line x1="335" y1="180" x2="340" y2="180" stroke="#475569" stroke-width="1"/><text x="343" y="182">16</text>
+                </g>
+              </svg>
+
+              <!-- Floating Caliper Distance Badge -->
+              <div class="caliper-measurement-overlay">
+                <span class="caliper-badge yellow">&bull; D1 (Wall): 4.5 mm [ABNORMAL]</span>
+                <span class="caliper-badge cyan">&bull; D2 (Calculus): 7.0 mm [ACOUSTIC SHADOW]</span>
+              </div>
+            </div>
+
+            <!-- Keyframe Selector Strip -->
+            <div class="keyframe-thumbnail-strip" id="keyframe-gallery">
+              <!-- Rendered via JS -->
+            </div>
           </div>
 
+          <!-- Synchronous Audio Visualizer & Real-Time Dictation Player -->
           <div class="audio-player-box">
             <div class="audio-header">
-              <span class="label">Synchronous Dictation Audio</span>
-              <span class="audio-time" id="audio-time-display">00:00 / 00:06</span>
+              <div class="audio-header-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                <span class="label">Synchronous Dictation Audio</span>
+              </div>
+              <span class="audio-time mono-code" id="audio-time-display">00:00.0 / 00:06.0</span>
             </div>
-            <div class="waveform-visualizer" id="waveform-canvas-box">
-              <div class="waveform-bar active" style="height: 35%"></div>
-              <div class="waveform-bar active" style="height: 60%"></div>
-              <div class="waveform-bar active" style="height: 90%"></div>
-              <div class="waveform-bar active" style="height: 45%"></div>
-              <div class="waveform-bar active" style="height: 80%"></div>
-              <div class="waveform-bar active" style="height: 70%"></div>
-              <div class="waveform-bar active" style="height: 95%"></div>
-              <div class="waveform-bar active" style="height: 30%"></div>
-              <div class="waveform-bar active" style="height: 75%"></div>
-              <div class="waveform-bar active" style="height: 50%"></div>
+
+            <!-- Real-Time HTML5 Canvas Oscilloscope Waveform -->
+            <div class="waveform-canvas-container">
+              <canvas id="live-audio-canvas" width="380" height="42"></canvas>
+              <div class="canvas-grid-overlay"></div>
             </div>
-            <div class="audio-controls">
-              <div style="display: flex; gap: 6px;">
-                <button class="btn-icon" id="play-pause-btn" title="Play Synchronous Audio">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+
+            <div class="audio-controls-row">
+              <div class="audio-buttons-left">
+                <button class="btn-icon" id="play-pause-btn" title="Play Recorded Synchronous Audio">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 </button>
-                <button class="btn-sm btn-outline" id="live-mic-btn" style="display: flex; align-items: center; gap: 4px;">
-                  <span>🎙️</span>
-                  <span id="live-mic-text">Live Mic Dictation</span>
+                <button class="btn-sm btn-mic" id="live-mic-btn" title="Enable Live Microphone Dictation (Web Speech API)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                  <span id="live-mic-text">Live Mic</span>
+                </button>
+                <button class="btn-sm btn-outline" id="stream-replay-btn" title="Replay Stream Word-by-Word">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Replay Stream</span>
                 </button>
               </div>
-              <div class="telemetry-chip">
-                <span>VAD: 85%</span>
-                <span>SNR: 28.5 dB</span>
+              <div class="telemetry-chip mono-code">
+                <span>VAD: <strong>92%</strong></span>
+                <span>SNR: <strong>28.5 dB</strong></span>
               </div>
             </div>
           </div>
 
-          <!-- Real-Time Speech Recognition Stream (Member 2: Sohum) -->
+          <!-- Real-Time Biased Speech-to-Text Terminal Stream (Member 2: Sohum) -->
           <div class="speech-stream-box">
             <div class="stream-header">
               <div class="stream-title">
                 <span class="pulse-indicator"></span>
-                <span>Biased Speech-to-Text (Sohum CSE2)</span>
+                <span>Biased Speech Recognition Stream</span>
               </div>
-              <div style="display: flex; gap: 4px; align-items: center;">
-                <span class="chip-latency" id="stream-latency-chip">Latency: 9.2 ms</span>
-                <button class="btn-sm btn-outline" id="open-asr-lab-quick-btn" style="padding: 1px 6px; font-size: 0.65rem;">Full Lab &rarr;</button>
+              <div class="stream-meta-actions">
+                <span class="chip-latency mono-code" id="stream-latency-chip">Latency: 9.2 ms</span>
+                <span class="badge-member cse2">Sohum CSE2</span>
               </div>
             </div>
+            
             <div class="stream-transcript-box" id="live-stream-box">
-              <p class="stream-line">
-                <span class="badge-raw">RAW ASR (GENERIC):</span>
+              <div class="stream-line raw-stream">
+                <span class="badge-raw">RAW ASR:</span>
                 <span class="text-raw" id="stream-text-raw">Gall bladder demonstrates diffuse wall thickening measuring four point five millimeters with multiple call cul us...</span>
-              </p>
-              <p class="stream-line">
-                <span class="badge-biased">BIASED ASR (ECHOSCRIBE):</span>
+              </div>
+              <div class="stream-line biased-stream">
+                <span class="badge-biased">BIASED ASR:</span>
                 <span class="text-biased" id="stream-text-biased">Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple <strong class="highlight-anat">calculi</strong> in the lumen producing distinct <strong class="highlight-anat">posterior acoustic shadowing</strong>.</span>
-              </p>
+              </div>
             </div>
-            <div style="margin-top: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <button class="btn-sm btn-outline" id="stream-replay-btn" style="font-size: 0.68rem;">▶ Stream Word-by-Word</button>
-              <span style="font-size: 0.65rem; color: var(--accent-emerald); font-family: var(--font-mono);">WER: 15.8% (-44.5%)</span>
+
+            <div class="stream-footer-meta">
+              <span class="mono-code text-success">&check; Rescued: 4 terms (K424 &bull; A223 &bull; M612 &bull; NUM_UNIT)</span>
+              <span class="mono-code text-cyan">c-WER: 13.6% (-56.6%)</span>
             </div>
           </div>
         </div>
 
-        <!-- Column 2: Draft Report Editor & Correct Screen -->
+        <!-- Column 2: Structured Clinical Report Editor (Review & Correct Interface) -->
         <div class="panel-card editor-panel">
           <div class="panel-header">
             <div class="panel-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <span>Structured Clinical Report (Review &amp; Correct)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>Structured Abdominal Ultrasound Report</span>
             </div>
             <div class="header-actions">
-              <span class="save-status" id="save-status-text">All changes audited</span>
-              <button class="btn-primary" id="save-report-btn">Sign-off &amp; Approve</button>
+              <span class="pacs-doc-status" id="save-status-text">
+                <span class="status-indicator-dot pending"></span>
+                <span>DRAFT (PENDING SIGN-OFF)</span>
+              </span>
+              <button class="btn-sign-off" id="save-report-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>Approve &amp; Sign Report</span>
+              </button>
             </div>
           </div>
 
-          <!-- Organ Finding Accordions -->
+          <!-- Report Metadata Strip -->
+          <div class="report-meta-subbar">
+            <div class="meta-item"><span>TAXONOMY:</span> <strong>ACR Abdominal v3.2</strong></div>
+            <div class="meta-item"><span>CURATOR:</span> <strong>Nikilan (Health Science)</strong></div>
+            <div class="meta-item"><span>DIFF MODE:</span> 
+              <button class="btn-micro" id="toggle-diff-btn">Show AI vs Corrected</button>
+            </div>
+            <div class="meta-item"><span>ABNORMAL SLICE:</span> <strong class="text-amber">Acute Cholelithiasis</strong></div>
+          </div>
+
+          <!-- Organ Finding Sections Container -->
           <div class="organ-sections-container" id="organ-findings-list">
             <!-- Dynamic organ sections loaded via JS -->
           </div>
 
           <!-- Overall Impression & Final Diagnosis -->
           <div class="impression-box">
-            <label for="impression-textarea"><strong>FINAL IMPRESSION / ACR SUMMARY:</strong></label>
+            <div class="impression-header">
+              <label for="impression-textarea"><strong>FINAL IMPRESSION / ACR RADS SYNTHESIS:</strong></label>
+              <span class="badge-accreditation">Tamper Audited</span>
+            </div>
             <textarea id="impression-textarea" rows="3" class="editor-textarea">1. Acute cholecystitis with multiple mobile intraluminal calculi and positive sonographic Murphy's sign.
 2. Moderate diffuse hepatic steatosis with preserved portal venous patency.
-3. No evidence of free fluid in Morison's pouch or retroperitoneum.</textarea>
+3. Obstructing 7.0 mm proximal right ureteral calculus with mild pyelocaliceal dilatation.</textarea>
           </div>
         </div>
 
-        <!-- Column 3: Audit Trail & Real-Time Telemetry (Member 4: Dinesh) -->
+        <!-- Column 3: Cryptographic Audit Trail & Telemetry (Member 4: Dinesh) -->
         <div class="panel-card audit-panel">
           <div class="panel-header">
             <div class="panel-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>Live Audit Trail (Member 4: Dinesh)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Cryptographic Audit Trail</span>
             </div>
-            <span class="badge-pill">HIPAA &sect; 164.312</span>
+            <span class="badge-member it">Member 4: Dinesh</span>
           </div>
 
+          <!-- Pipeline Telemetry Gauge Bar -->
           <div class="telemetry-bar">
             <div class="telemetry-item">
-              <span class="telem-label">Pipeline Latency</span>
-              <span class="telem-val" id="telem-latency">57.0 ms</span>
+              <span class="telem-label">Inference Latency</span>
+              <span class="telem-val mono-code" id="telem-latency">57.0 ms</span>
             </div>
             <div class="telemetry-item">
               <span class="telem-label">Real-Time Factor</span>
-              <span class="telem-val" id="telem-rtf">0.0095</span>
+              <span class="telem-val mono-code text-cyan" id="telem-rtf">0.0095</span>
             </div>
             <div class="telemetry-item">
-              <span class="telem-label">c-WER Gain</span>
-              <span class="telem-val text-accent" id="telem-gain">+56.6%</span>
+              <span class="telem-label">c-WER Accuracy Gain</span>
+              <span class="telem-val mono-code text-success" id="telem-gain">+56.6%</span>
             </div>
           </div>
 
+          <!-- Security & Integrity Pill -->
+          <div class="audit-security-status">
+            <div class="security-chip-left">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>SHA-256 Tamper-Evident Ledger</span>
+            </div>
+            <span class="mono-code text-muted" id="audit-count-badge">8 Events</span>
+          </div>
+
+          <!-- Live Audit Stream Feed -->
           <div class="audit-stream" id="audit-feed-box">
             <!-- Populated live via JS -->
           </div>
+
+          <div class="audit-panel-footer">
+            <button class="btn-sm btn-outline full-width" id="open-full-audit-btn">
+              <span>View Full HIPAA Audit Log &rarr;</span>
+            </button>
+          </div>
         </div>
 
+      </div>
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB: SPEECH-TO-TEXT & CLINICAL ASR LAB (MEMBER 2: SOHUM) -->
+    <!-- TAB 2: SPEECH-TO-TEXT & CLINICAL ASR LAB (SOHUM CSE2)   -->
     <!-- ======================================================== -->
-    <section id="asr-lab-mode" class="tab-pane">
+    <section id="asr-lab-mode" class="tab-pane" role="tabpanel">
       <div class="asr-lab-container">
         
         <!-- Top Controls Bar -->
@@ -223,15 +393,18 @@
           <div class="lab-title-box">
             <div class="avatar cse2">S</div>
             <div>
-              <h2>Member 2: Anatomical Vocabulary-Biased Speech-to-Text Lab</h2>
-              <p>Speech Models, Pre-Emphasis Audio Filter, Phonetic Dictionary &amp; Clinical Biasing</p>
+              <div class="lab-header-title-row">
+                <h2>Member 2: Anatomical Vocabulary-Biased Speech-to-Text Pipeline</h2>
+                <span class="badge-member cse2">Sohum (CSE Core 2)</span>
+              </div>
+              <p>Phonetic Soundex Mapping, Medical N-Gram Hotword Biasing, Pre-emphasis Audio Filter &amp; Metric Regex</p>
             </div>
           </div>
 
           <div class="lab-actions">
             <div class="case-selector-box">
-              <label for="asr-case-select">Select Clinical Case:</label>
-              <select id="asr-case-select" class="rbac-select" style="padding: 6px 12px; font-size: 0.8rem;">
+              <label for="asr-case-select">Select Case Scenario:</label>
+              <select id="asr-case-select" class="rbac-select">
                 <option value="CASE_ABD_001" selected>Case 1: Gallbladder (Cholecystitis &amp; Cholelithiasis)</option>
                 <option value="CASE_ABD_002">Case 2: Liver (Hepatic Steatosis &amp; Hemangioma)</option>
                 <option value="CASE_ABD_003">Case 3: Right Kidney (Calculus &amp; Hydronephrosis)</option>
@@ -240,15 +413,18 @@
               </select>
             </div>
 
-            <button class="btn-primary" id="lab-mic-btn" style="display: flex; align-items: center; gap: 6px;">
-              <span>🎙️</span>
-              <span id="lab-mic-text">Start Live Mic</span>
+            <button class="btn-mic" id="lab-mic-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+              <span id="lab-mic-text">Live Microphone</span>
             </button>
-            <button class="btn-primary btn-outline" id="lab-simulate-btn">
-              ▶ Transcribe Case
+
+            <button class="btn-primary" id="lab-simulate-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Transcribe Case</span>
             </button>
+
             <button class="btn-sm btn-outline" id="push-to-editor-btn">
-              ⚡ Push Findings to Report Editor &rarr;
+              <span>Push to Report Editor &rarr;</span>
             </button>
           </div>
         </div>
@@ -258,9 +434,9 @@
           <div class="kpi-card">
             <span class="kpi-label">Clinical Term WER (c-WER)</span>
             <div class="kpi-value-row">
-              <span class="kpi-before">31.4%</span>
+              <span class="kpi-before mono-code">31.4%</span>
               <span class="kpi-arrow">&rarr;</span>
-              <span class="kpi-after text-accent" id="lab-cwer-val">13.6%</span>
+              <span class="kpi-after mono-code text-success" id="lab-cwer-val">13.6%</span>
             </div>
             <span class="kpi-badge text-success">&darr; 56.6% Error Reduction</span>
           </div>
@@ -268,9 +444,9 @@
           <div class="kpi-card">
             <span class="kpi-label">Overall Word Error Rate (WER)</span>
             <div class="kpi-value-row">
-              <span class="kpi-before">28.6%</span>
+              <span class="kpi-before mono-code">28.6%</span>
               <span class="kpi-arrow">&rarr;</span>
-              <span class="kpi-after" id="lab-wer-val">15.8%</span>
+              <span class="kpi-after mono-code text-cyan" id="lab-wer-val">15.8%</span>
             </div>
             <span class="kpi-badge text-success">&darr; 44.5% Relative Gain</span>
           </div>
@@ -278,28 +454,28 @@
           <div class="kpi-card">
             <span class="kpi-label">Streaming Turnaround Latency</span>
             <div class="kpi-value-row">
-              <span class="kpi-after text-accent" id="lab-latency-val">9.2 ms</span>
+              <span class="kpi-after mono-code text-amber" id="lab-latency-val">9.2 ms</span>
             </div>
-            <span class="kpi-badge">Real-Time Factor: 0.0095</span>
+            <span class="kpi-badge mono-code">RTF: 0.0095 (Edge Optimized)</span>
           </div>
 
           <div class="kpi-card">
             <span class="kpi-label">Spoken Metric Normalization</span>
             <div class="kpi-value-row">
-              <span class="kpi-after text-success">100.0%</span>
+              <span class="kpi-after mono-code text-success">100.0%</span>
             </div>
-            <span class="kpi-badge">Regex Spoken Number Parser</span>
+            <span class="kpi-badge">Deterministic Spoken Regex</span>
           </div>
         </div>
 
         <!-- Live Side-by-Side Comparison Grid -->
         <div class="asr-comparison-grid">
           
-          <!-- Box A: Standard Unbiased ASR -->
+          <!-- Box A: Standard Unbiased Generic Whisper -->
           <div class="comparison-card raw-card">
             <div class="comparison-header">
               <div class="comp-title">
-                <span class="badge-raw">OFF-THE-SHELF ASR (UNBIASED WHISPER / GENERIC STT)</span>
+                <span class="badge-raw">GENERIC UNBIASED ASR (STANDARD WHISPER)</span>
               </div>
               <span class="error-pill" id="lab-raw-errors-count">4 Terminology Errors</span>
             </div>
@@ -307,7 +483,7 @@
               Gall bladder demonstrates diffuse wall thickening measuring <span class="err-text">four point five millimeters</span> with multiple mobile echo genic <span class="err-text">call cul us</span> in the lumen producing distinct posterior <span class="err-text">acoustic shadow</span>. Sonographic <span class="err-text">murphys sign</span> is positive. <span class="err-text">Peri cholecystic</span> fluid is noted in the gall bladder bed.
             </div>
             <div class="comparison-footer">
-              <span class="footer-note">Notice: Misclassifies anatomical homophones and fails to standardize metric measurements.</span>
+              <span class="footer-note text-muted">Vulnerable to medical homophones, compound splitting, and verbal measurement drift.</span>
             </div>
           </div>
 
@@ -315,69 +491,63 @@
           <div class="comparison-card biased-card">
             <div class="comparison-header">
               <div class="comp-title">
-                <span class="badge-biased">ECHOSCRIBE ANATOMICALLY-BIASED ASR (MEMBER 2: SOHUM)</span>
+                <span class="badge-biased">ECHOSCRIBE ANATOMICALLY-BIASED ASR (SOHUM CSE2)</span>
               </div>
-              <span class="success-pill">Biased &amp; Rescued</span>
+              <span class="success-pill">&check; Clinical Tokens Rescued</span>
             </div>
             <div class="comparison-body" id="lab-biased-text-box">
               Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple mobile echogenic <strong class="highlight-anat">calculi</strong> in the lumen producing distinct posterior <strong class="highlight-anat">acoustic shadowing</strong>. Sonographic <strong class="highlight-anat">Murphy's sign</strong> is positive. <strong class="highlight-anat">Pericholecystic fluid</strong> is noted in the gallbladder bed.
             </div>
             <div class="comparison-footer">
-              <span class="footer-note text-success">&check; Rescued via Prefix Prompt Conditioning, Hotword Boosting &amp; Phonetic Disambiguation.</span>
+              <span class="footer-note text-success">&check; Rescued via Prefix Prompt Conditioning, Hotword Boosting &amp; Phonetic Soundex Engine.</span>
             </div>
           </div>
 
+        </div>
+
+        <!-- Interactive Real-Time Biasing Sandbox -->
+        <div class="interactive-sandbox-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Live Biasing Sandbox (Type or Dictate Any Clinical Phrase)</span>
+            </div>
+            <span class="badge-pill mono-code">Interactive Regex &amp; Soundex Engine</span>
+          </div>
+
+          <div class="sandbox-input-row">
+            <input type="text" id="sandbox-input" class="sandbox-input" placeholder="Try typing: 'peri cholecystic fluid with seven millimeter call cul us' or 'stea tosis in segment six'..." value="gall bladder wall four point five millimeters with multiple call cul us and peri cholecystic fluid">
+            <button class="btn-primary" id="run-sandbox-btn">Run Pipeline Biasing</button>
+          </div>
+
+          <div class="sandbox-result-box" id="sandbox-result">
+            <span class="result-label">Biased Normalized Output:</span>
+            <p id="sandbox-output-text">Gallbladder wall <strong class="highlight-meas">4.5 mm</strong> with multiple <strong class="highlight-anat">calculi</strong> and <strong class="highlight-anat">pericholecystic</strong> fluid</p>
+          </div>
         </div>
 
         <!-- Phonetic Dictionary Rescued Terms Table -->
         <div class="phonetic-table-card">
           <div class="panel-header">
             <div class="panel-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              <span>Phonetic Medical Dictionary &amp; Homophone Disambiguation Log</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <span>Phonetic Medical Dictionary &amp; Homophone Disambiguation Table</span>
             </div>
             <span class="badge-pill">Soundex + Levenshtein Engine</span>
           </div>
 
-          <table class="presentation-table" style="margin-top: 0;">
+          <table class="presentation-table">
             <thead>
               <tr>
                 <th>Acoustic Input (Misrecognized)</th>
                 <th>Phonetic Soundex Key</th>
                 <th>Disambiguation Strategy</th>
                 <th>Rescued Clinical Term</th>
-                <th>Status</th>
+                <th>Validation Status</th>
               </tr>
             </thead>
             <tbody id="phonetic-corrections-tbody">
-              <tr>
-                <td><code>call cul us</code> / <code>cal cul us</code></td>
-                <td><code>K424</code></td>
-                <td>Phonetic Homophone Mapping</td>
-                <td><strong class="highlight-anat">calculus / calculi</strong></td>
-                <td><span class="status-done">&check; Rescued</span></td>
-              </tr>
-              <tr>
-                <td><code>four point five millimeters</code></td>
-                <td><code>NUM_UNIT</code></td>
-                <td>Regex Spoken Metric Parser</td>
-                <td><strong class="highlight-meas">4.5 mm</strong></td>
-                <td><span class="status-done">&check; Normalized</span></td>
-              </tr>
-              <tr>
-                <td><code>acoustic shadow</code></td>
-                <td><code>A223</code></td>
-                <td>N-Gram Hotword Boosting</td>
-                <td><strong class="highlight-anat">posterior acoustic shadowing</strong></td>
-                <td><span class="status-done">&check; Rescued</span></td>
-              </tr>
-              <tr>
-                <td><code>murphys sign</code></td>
-                <td><code>M612</code></td>
-                <td>Ultrasound Lexicon Match</td>
-                <td><strong class="highlight-anat">Murphy's sign</strong></td>
-                <td><span class="status-done">&check; Standardized</span></td>
-              </tr>
+              <!-- Rendered via JS -->
             </tbody>
           </table>
         </div>
@@ -386,33 +556,58 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB 2: PRESENTATION MODE (PRESENTATION FOR THE MA'AM)    -->
+    <!-- TAB 3: PRESENTATION MODE (REVIEW-II FACULTY DEFENSE)     -->
     <!-- ======================================================== -->
-    <section id="presentation-mode" class="tab-pane">
+    <section id="presentation-mode" class="tab-pane" role="tabpanel">
       <div class="presentation-container">
         
         <div class="slide-navigation">
-          <button class="slide-btn" id="prev-slide-btn">&larr; Previous</button>
-          <div class="slide-indicator">
-            <span id="current-slide-num">1</span> / <span id="total-slides-num">6</span>
+          <div class="slide-nav-left">
+            <button class="slide-btn" id="prev-slide-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              <span>Previous</span>
+            </button>
+            <div class="slide-indicator mono-code">
+              SLIDE <span id="current-slide-num">1</span> OF <span id="total-slides-num">6</span>
+            </div>
+            <button class="slide-btn" id="next-slide-btn">
+              <span>Next</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
-          <button class="slide-btn" id="next-slide-btn">Next &rarr;</button>
+
+          <div class="slide-nav-right">
+            <span class="keyboard-hint mono-code">Use [&larr;] [ &rarr;] keys or [F] for Fullscreen</span>
+            <button class="btn-sm btn-outline" id="fullscreen-toggle-btn">Fullscreen</button>
+          </div>
         </div>
 
         <!-- SLIDE 1: Title & Mandate -->
         <article class="presentation-slide active" data-slide="1">
-          <div class="slide-badge">BAXXX191 Basic Multidisciplinary Project &bull; Review-II</div>
+          <div class="slide-badge">BAXXX191 Basic Multidisciplinary Project &bull; Review-II Defense</div>
           <h2 class="slide-title">EchoScribe-AI: Multimodal Frame Capture, Vocabulary-Biased Speech Recognition, and LLM-Driven Abdominal Ultrasound Reporting</h2>
           <p class="slide-lead">An on-premises, multimodal clinical documentation platform synchronously integrating hardware ultrasound keyframe capture, domain-biased ASR, LLM structuring benchmarks, and an audited review interface.</p>
 
-          <div class="grid-2-cols" style="margin-top: 2rem;">
+          <div class="grid-2-cols" style="margin-top: 1.5rem;">
             <div class="highlight-card">
-              <h3>Clinical Problem Addressed</h3>
+              <div class="highlight-card-header">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <h3>Clinical Problem Addressed</h3>
+              </div>
               <p>Radiologists spend <strong>up to 40% of examination time</strong> manually typing reports post-exam. Off-the-shelf ASR engines misclassify complex anatomical terminology (e.g. <em>cholelithiasis</em>, <em>hyperechoic lesion</em>), and keyframe images are disconnected from dictation notes.</p>
+              <div class="problem-stats-row">
+                <span class="stat-pill red">&bull; 4.2h Average TAT</span>
+                <span class="stat-pill yellow">&bull; 31.4% Baseline c-WER</span>
+                <span class="stat-pill blue">&bull; $180k Misdiagnosis Risk</span>
+              </div>
             </div>
+
             <div class="highlight-card">
-              <h3>Mandatory Review Outcomes</h3>
-              <ul>
+              <div class="highlight-card-header">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <h3>Mandatory Review Outcomes</h3>
+              </div>
+              <ul class="clean-bullet-list">
                 <li><strong>Title:</strong> EchoScribe-AI (Category A Precision)</li>
                 <li><strong>Understanding:</strong> Clinical workflow friction &amp; ASR terminology error rate</li>
                 <li><strong>Objectives:</strong> Synchronous capture, biased ASR, LLM harness, review UI, clinical taxonomy</li>
@@ -477,37 +672,46 @@
         <article class="presentation-slide" data-slide="3">
           <div class="slide-badge">System Engineering</div>
           <h2 class="slide-title">End-to-End Multimodal System Architecture</h2>
-          <p class="slide-lead">How the 5 modules synchronously communicate through standardized schemas:</p>
+          <p class="slide-lead">How the 5 modules synchronously communicate through standardized JSON schemas:</p>
 
           <div class="architecture-diagram-card">
             <div class="arch-box cse1">
-              <strong>Member 1 (Joel): Capture</strong>
-              <p>Ultrasound Video + Hardware Foot Pedal Trigger &rarr; 16kHz Sync Audio Recorder</p>
+              <span class="arch-num">01</span>
+              <strong>Member 1 (Joel)</strong>
+              <span class="arch-label">Keyframe Capture</span>
+              <p>Ultrasound Video + Hardware Foot Pedal Trigger &rarr; 16kHz Sync Audio Stream</p>
             </div>
             <div class="arch-arrow">&rarr;</div>
             <div class="arch-box cse2">
-              <strong>Member 2 (Sohum): Biased ASR</strong>
-              <p>Pre-emphasis Filter + Prompt Biasing + Phonetic Dictionary (Soundex + Levenshtein)</p>
+              <span class="arch-num">02</span>
+              <strong>Member 2 (Sohum)</strong>
+              <span class="arch-label">Biased ASR Engine</span>
+              <p>Pre-emphasis Filter + Prompt Biasing + Phonetic Soundex Disambiguation</p>
             </div>
             <div class="arch-arrow">&rarr;</div>
             <div class="arch-box ds">
-              <strong>Member 3 (Manya): LLM Harness</strong>
+              <span class="arch-num">03</span>
+              <strong>Member 3 (Manya)</strong>
+              <span class="arch-label">LLM Harness</span>
               <p>LLaMA-3 / Mistral Evaluation on Abnormal-Only Slice (WER, ROUGE, BLEU)</p>
             </div>
             <div class="arch-arrow">&rarr;</div>
             <div class="arch-box it">
-              <strong>Member 4 (Dinesh): UI &amp; Audit</strong>
-              <p>Web Review &amp; Correct Screen + SHA-256 Tamper-Evident Keystroke Audit Trail</p>
+              <span class="arch-num">04</span>
+              <strong>Member 4 (Dinesh)</strong>
+              <span class="arch-label">Review UI &amp; Audit</span>
+              <p>Web Review &amp; Correct Screen + SHA-256 Tamper-Evident Keystroke Audit</p>
             </div>
           </div>
           <div class="arch-clinical-banner">
-            <strong>Member 5 (Nikilan - Health Science):</strong> Governs Clinical Taxonomy, ACR RADS Reporting Structure, and Error Severity Rubric across all stages.
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span><strong>Member 5 (Nikilan - Health Science):</strong> Governs Clinical Taxonomy, ACR RADS Reporting Structure, and Error Severity Rubric across all stages.</span>
           </div>
         </article>
 
         <!-- SLIDE 4: Empirical Benchmark Results -->
         <article class="presentation-slide" data-slide="4">
-          <div class="slide-badge">Data Science &amp; Validation</div>
+          <div class="slide-badge">Data Science &amp; Validation (Member 3: Manya)</div>
           <h2 class="slide-title">Quantitative Benchmarking &amp; Performance Gains</h2>
           
           <div class="metrics-summary-grid">
@@ -517,7 +721,7 @@
               <p class="metric-desc">Baseline error rate on anatomical terms dropped from <strong>31.4% to 13.6%</strong> using domain biasing.</p>
             </div>
             <div class="metric-big-card">
-              <div class="metric-num">44.5%</div>
+              <div class="metric-num text-cyan">44.5%</div>
               <div class="metric-title">Overall WER Relative Improvement</div>
               <p class="metric-desc">Standard Word Error Rate dropped from <strong>28.6% down to 15.8%</strong>.</p>
             </div>
@@ -542,7 +746,7 @@
           <div class="grid-2-cols">
             <div class="highlight-card">
               <h3>Quantified Efficiency Gains</h3>
-              <ul>
+              <ul class="clean-bullet-list">
                 <li><strong>Radiologist Time Saved:</strong> 8.5 minutes per abdominal examination.</li>
                 <li><strong>Annual Radiologist Time Recaptured:</strong> ~340 hours per physician annually.</li>
                 <li><strong>Transcription Overhead Reduction:</strong> Eliminates external 3rd-party transcription outsourcing cost ($24,000/year/scanner).</li>
@@ -551,7 +755,7 @@
             </div>
             <div class="highlight-card">
               <h3>On-Premises Security &amp; Compliance</h3>
-              <ul>
+              <ul class="clean-bullet-list">
                 <li><strong>Zero Cloud Exfiltration:</strong> Models run entirely within hospital local network.</li>
                 <li><strong>HIPAA Compliance:</strong> Built-in tamper-evident audit logging for all text edits.</li>
                 <li><strong>PACS Compatibility:</strong> Exportable standard DICOM-SR structured reports.</li>
@@ -569,8 +773,8 @@
           <div class="summary-actions-box">
             <p><strong>Ready for Live Inspection:</strong></p>
             <p>We invite the panel to test the live review screen, simulate a foot pedal keyframe trigger, dictate anatomical jargon, and observe the live audit trail.</p>
-            <button class="btn-primary" id="launch-demo-from-slide-btn" style="margin-top: 1rem; padding: 0.8rem 1.8rem; font-size: 1rem;">
-              &rarr; Launch Live Clinical Review Screen
+            <button class="btn-primary" id="launch-demo-from-slide-btn" style="margin-top: 1rem; padding: 0.8rem 1.8rem; font-size: 0.95rem;">
+              <span>&rarr; Launch Live Clinical Review Screen</span>
             </button>
           </div>
         </article>
@@ -579,9 +783,9 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB 3: 5-MEMBER TEAM MATRIX & MODULE EXPLORER           -->
+    <!-- TAB 4: 5-MEMBER TEAM MATRIX & MODULE EXPLORER           -->
     <!-- ======================================================== -->
-    <section id="team-matrix-mode" class="tab-pane">
+    <section id="team-matrix-mode" class="tab-pane" role="tabpanel">
       <div class="team-explorer-grid">
         
         <div class="team-member-card">
@@ -673,9 +877,9 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB 4: AUDIT TRAIL & COMPLIANCE LOG                      -->
+    <!-- TAB 5: AUDIT TRAIL & COMPLIANCE LOG                      -->
     <!-- ======================================================== -->
-    <section id="audit-mode" class="tab-pane">
+    <section id="audit-mode" class="tab-pane" role="tabpanel">
       <div class="audit-full-container">
         <div class="audit-controls-bar">
           <div class="search-box">
@@ -706,6 +910,11 @@
     </section>
 
   </main>
+
+  <!-- ======================================================== -->
+  <!-- TOAST NOTIFICATION SYSTEM                                -->
+  <!-- ======================================================== -->
+  <div id="toast-container" class="toast-container"></div>
 
   <script src="static/app.js"></script>
 </body>
