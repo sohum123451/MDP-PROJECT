@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  echoscribe-clinical-ui:
+    build:
+      context: ..
+      dockerfile: clinical_ui/Dockerfile
+    container_name: echoscribe-review-interface
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../data/audit_logs:/app/data/audit_logs
+      - ../data/sessions:/app/data/sessions
+      - ../data/captured_keyframes:/app/data/captured_keyframes
+    environment:
+      - ENV=production
+      - DEPLOYMENT_MODE=on_premises
+      - HIPAA_AUDIT_ENABLED=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

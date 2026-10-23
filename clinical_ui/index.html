@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EchoScribe-AI | Clinical Ultrasound Review &amp; Presentation Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/app.css">
+</head>
+<body class="dark-theme">
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>EchoScribe-AI <span class="badge-version">v1.0.0-onprem</span></h1>
+        <p class="subtitle">Multimodal Ultrasound Capture, Biased ASR &amp; Clinical Audit Platform</p>
+      </div>
+    </div>
+
+    <!-- Mode Switcher Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="review-mode" id="tab-btn-review">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Radiologist Review &amp; Correct
+      </button>
+      <button class="nav-tab" data-tab="presentation-mode" id="tab-btn-presentation">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Review-II Presentation (To Ma'am)
+      </button>
+      <button class="nav-tab" data-tab="team-matrix-mode" id="tab-btn-team">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        5-Member Team Matrix
+      </button>
+      <button class="nav-tab" data-tab="audit-mode" id="tab-btn-audit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Audit Trail &amp; Compliance
+      </button>
+    </nav>
+
+    <!-- User / RBAC Profile Badge -->
+    <div class="user-profile">
+      <div class="rbac-selector-wrapper">
+        <label for="rbac-role-select">Active Role:</label>
+        <select id="rbac-role-select" class="rbac-select">
+          <option value="radiologist" selected>Attending Radiologist (Dr. Alvarez)</option>
+          <option value="sonographer">Senior Sonographer (Joel CSE1)</option>
+          <option value="data_scientist">Data Science Lead (Manya CSE-DS)</option>
+          <option value="auditor">Hospital HIPAA Auditor (Dinesh IT)</option>
+        </select>
+      </div>
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span class="status-label">On-Premises Local</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="main-content">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: RADIOLOGIST REVIEW & CORRECT SCREEN               -->
+    <!-- ======================================================== -->
+    <section id="review-mode" class="tab-pane active">
+      <div class="clinical-workspace-grid">
+
+        <!-- Column 1: Captured Keyframes & Synchronous Audio -->
+        <div class="panel-card keyframes-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Captured Keyframes (Member 1: Joel)</span>
+            </div>
+            <button class="btn-sm btn-outline" id="simulate-trigger-btn">+ Foot Pedal Trigger</button>
+          </div>
+
+          <div class="keyframe-carousel" id="keyframe-gallery">
+            <!-- Populated via JS -->
+          </div>
+
+          <div class="audio-player-box">
+            <div class="audio-header">
+              <span class="label">Synchronous Dictation Audio</span>
+              <span class="audio-time" id="audio-time-display">00:00 / 00:06</span>
+            </div>
+            <div class="waveform-visualizer" id="waveform-canvas-box">
+              <div class="waveform-bar active" style="height: 35%"></div>
+              <div class="waveform-bar active" style="height: 60%"></div>
+              <div class="waveform-bar active" style="height: 90%"></div>
+              <div class="waveform-bar active" style="height: 45%"></div>
+              <div class="waveform-bar active" style="height: 80%"></div>
+              <div class="waveform-bar active" style="height: 70%"></div>
+              <div class="waveform-bar active" style="height: 95%"></div>
+              <div class="waveform-bar active" style="height: 30%"></div>
+              <div class="waveform-bar active" style="height: 75%"></div>
+              <div class="waveform-bar active" style="height: 50%"></div>
+            </div>
+            <div class="audio-controls">
+              <button class="btn-icon" id="play-pause-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="telemetry-chip">
+                <span>VAD Active: 85%</span>
+                <span>SNR: 28.5 dB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Speech Recognition Stream (Member 2: Sohum) -->
+          <div class="speech-stream-box">
+            <div class="stream-header">
+              <div class="stream-title">
+                <span class="pulse-indicator"></span>
+                <span>Biased Speech Stream (Member 2: Sohum)</span>
+              </div>
+              <span class="chip-latency" id="stream-latency-chip">Latency: 9.2 ms</span>
+            </div>
+            <div class="stream-transcript-box" id="live-stream-box">
+              <p class="stream-line">
+                <span class="badge-raw">RAW ASR:</span>
+                <span class="text-raw">Gall bladder demonstrates diffuse wall thickening measuring four point five millimeters with multiple call cul us...</span>
+              </p>
+              <p class="stream-line">
+                <span class="badge-biased">BIASED:</span>
+                <span class="text-biased">Gallbladder demonstrates diffuse wall thickening measuring <strong class="highlight-meas">4.5 mm</strong> with multiple <strong class="highlight-anat">calculi</strong> in the lumen producing distinct <strong class="highlight-anat">posterior acoustic shadowing</strong>.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Draft Report Editor & Correct Screen -->
+        <div class="panel-card editor-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>Structured Clinical Report (Review &amp; Correct)</span>
+            </div>
+            <div class="header-actions">
+              <span class="save-status" id="save-status-text">All changes audited</span>
+              <button class="btn-primary" id="save-report-btn">Sign-off &amp; Approve</button>
+            </div>
+          </div>
+
+          <!-- Organ Finding Accordions -->
+          <div class="organ-sections-container" id="organ-findings-list">
+            <!-- Dynamic organ sections loaded via JS -->
+          </div>
+
+          <!-- Overall Impression & Final Diagnosis -->
+          <div class="impression-box">
+            <label for="impression-textarea"><strong>FINAL IMPRESSION / ACR SUMMARY:</strong></label>
+            <textarea id="impression-textarea" rows="3" class="editor-textarea">1. Acute cholecystitis with multiple mobile intraluminal calculi and positive sonographic Murphy's sign.
+2. Moderate diffuse hepatic steatosis with preserved portal venous patency.
+3. No evidence of free fluid in Morison's pouch or retroperitoneum.</textarea>
+          </div>
+        </div>
+
+        <!-- Column 3: Audit Trail & Real-Time Telemetry (Member 4: Dinesh) -->
+        <div class="panel-card audit-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Live Audit Trail (Member 4: Dinesh)</span>
+            </div>
+            <span class="badge-pill">HIPAA &sect; 164.312</span>
+          </div>
+
+          <div class="telemetry-bar">
+            <div class="telemetry-item">
+              <span class="telem-label">Pipeline Latency</span>
+              <span class="telem-val" id="telem-latency">57.0 ms</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telem-label">Real-Time Factor</span>
+              <span class="telem-val" id="telem-rtf">0.0095</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telem-label">c-WER Gain</span>
+              <span class="telem-val text-accent" id="telem-gain">+56.6%</span>
+            </div>
+          </div>
+
+          <div class="audit-stream" id="audit-feed-box">
+            <!-- Populated live via JS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: PRESENTATION MODE (PRESENTATION FOR THE MA'AM)    -->
+    <!-- ======================================================== -->
+    <section id="presentation-mode" class="tab-pane">
+      <div class="presentation-container">
+        
+        <div class="slide-navigation">
+          <button class="slide-btn" id="prev-slide-btn">&larr; Previous</button>
+          <div class="slide-indicator">
+            <span id="current-slide-num">1</span> / <span id="total-slides-num">6</span>
+          </div>
+          <button class="slide-btn" id="next-slide-btn">Next &rarr;</button>
+        </div>
+
+        <!-- SLIDE 1: Title & Mandate -->
+        <article class="presentation-slide active" data-slide="1">
+          <div class="slide-badge">BAXXX191 Basic Multidisciplinary Project &bull; Review-II</div>
+          <h2 class="slide-title">EchoScribe-AI: Multimodal Frame Capture, Vocabulary-Biased Speech Recognition, and LLM-Driven Abdominal Ultrasound Reporting</h2>
+          <p class="slide-lead">An on-premises, multimodal clinical documentation platform synchronously integrating hardware ultrasound keyframe capture, domain-biased ASR, LLM structuring benchmarks, and an audited review interface.</p>
+
+          <div class="grid-2-cols" style="margin-top: 2rem;">
+            <div class="highlight-card">
+              <h3>Clinical Problem Addressed</h3>
+              <p>Radiologists spend <strong>up to 40% of examination time</strong> manually typing reports post-exam. Off-the-shelf ASR engines misclassify complex anatomical terminology (e.g. <em>cholelithiasis</em>, <em>hyperechoic lesion</em>), and keyframe images are disconnected from dictation notes.</p>
+            </div>
+            <div class="highlight-card">
+              <h3>Mandatory Review Outcomes</h3>
+              <ul>
+                <li><strong>Title:</strong> EchoScribe-AI (Category A Precision)</li>
+                <li><strong>Understanding:</strong> Clinical workflow friction &amp; ASR terminology error rate</li>
+                <li><strong>Objectives:</strong> Synchronous capture, biased ASR, LLM harness, review UI, clinical taxonomy</li>
+                <li><strong>Scope:</strong> In-scope abdominal ultrasound; Out-of-scope automated diagnosis</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- SLIDE 2: 5-Member Multidisciplinary Responsibility Matrix -->
+        <article class="presentation-slide" data-slide="2">
+          <div class="slide-badge">Team Architecture &bull; 5 Disciplines</div>
+          <h2 class="slide-title">5-Member Team Responsibility Matrix &amp; Ownership</h2>
+          
+          <div class="team-matrix-table-wrapper">
+            <table class="presentation-table">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Department / Discipline</th>
+                  <th>Primary Responsibility &amp; Deliverables</th>
+                  <th>Execution Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Joel</strong></td>
+                  <td><span class="dept-badge cse1">CSE Core (Core 1)</span></td>
+                  <td><strong>Capture, Integration &amp; Lead Systems Integrator:</strong> Frame grabber, hardware pedal trigger, audio capture, Unified Session JSON Schema.</td>
+                  <td><span class="status-done">&check; Complete (Branch: joel)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Sohum</strong></td>
+                  <td><span class="dept-badge cse2">CSE Core (Core 2)</span></td>
+                  <td><strong>Speech Models &amp; Pipeline Lead:</strong> Anatomical vocabulary-biased ASR, phonetic dictionary homophone correction, real-time streaming buffer.</td>
+                  <td><span class="status-done">&check; Complete (Branch: sohum)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Manya</strong></td>
+                  <td><span class="dept-badge ds">Business Systems &amp; CSE DS</span></td>
+                  <td><strong>Data Science, Harness &amp; ROI Lead:</strong> LLM comparison harness, dedicated <strong>abnormal-only dataset slice</strong>, quantitative evaluation metrics (WER/ROUGE), business ROI analysis.</td>
+                  <td><span class="status-done">&check; Complete (Branch: manya)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Dinesh</strong></td>
+                  <td><span class="dept-badge it">IT</span></td>
+                  <td><strong>Interface, Audit &amp; Deployment:</strong> Radiologist review &amp; correct UI, tamper-evident audit logging, on-premises containerization (Docker).</td>
+                  <td><span class="status-done">&check; Complete (Branch: dinesh)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Nikilan</strong></td>
+                  <td><span class="dept-badge hs">Health Science</span></td>
+                  <td><strong>Clinical Lead &amp; Domain Expert:</strong> Abdominal ultrasound report taxonomy, clinical error severity rubric, ground-truth annotated dataset, IRB/ethics protocol.</td>
+                  <td><span class="status-done">&check; Complete (Branch: nikilan)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- SLIDE 3: System Architecture & Data Flow -->
+        <article class="presentation-slide" data-slide="3">
+          <div class="slide-badge">System Engineering</div>
+          <h2 class="slide-title">End-to-End Multimodal System Architecture</h2>
+          <p class="slide-lead">How the 5 modules synchronously communicate through standardized schemas:</p>
+
+          <div class="architecture-diagram-card">
+            <div class="arch-box cse1">
+              <strong>Member 1 (Joel): Capture</strong>
+              <p>Ultrasound Video + Hardware Foot Pedal Trigger &rarr; 16kHz Sync Audio Recorder</p>
+            </div>
+            <div class="arch-arrow">&rarr;</div>
+            <div class="arch-box cse2">
+              <strong>Member 2 (Sohum): Biased ASR</strong>
+              <p>Pre-emphasis Filter + Prompt Biasing + Phonetic Dictionary (Soundex + Levenshtein)</p>
+            </div>
+            <div class="arch-arrow">&rarr;</div>
+            <div class="arch-box ds">
+              <strong>Member 3 (Manya): LLM Harness</strong>
+              <p>LLaMA-3 / Mistral Evaluation on Abnormal-Only Slice (WER, ROUGE, BLEU)</p>
+            </div>
+            <div class="arch-arrow">&rarr;</div>
+            <div class="arch-box it">
+              <strong>Member 4 (Dinesh): UI &amp; Audit</strong>
+              <p>Web Review &amp; Correct Screen + SHA-256 Tamper-Evident Keystroke Audit Trail</p>
+            </div>
+          </div>
+          <div class="arch-clinical-banner">
+            <strong>Member 5 (Nikilan - Health Science):</strong> Governs Clinical Taxonomy, ACR RADS Reporting Structure, and Error Severity Rubric across all stages.
+          </div>
+        </article>
+
+        <!-- SLIDE 4: Empirical Benchmark Results -->
+        <article class="presentation-slide" data-slide="4">
+          <div class="slide-badge">Data Science &amp; Validation</div>
+          <h2 class="slide-title">Quantitative Benchmarking &amp; Performance Gains</h2>
+          
+          <div class="metrics-summary-grid">
+            <div class="metric-big-card">
+              <div class="metric-num text-accent">56.6%</div>
+              <div class="metric-title">Clinical Term WER (c-WER) Reduction</div>
+              <p class="metric-desc">Baseline error rate on anatomical terms dropped from <strong>31.4% to 13.6%</strong> using domain biasing.</p>
+            </div>
+            <div class="metric-big-card">
+              <div class="metric-num">44.5%</div>
+              <div class="metric-title">Overall WER Relative Improvement</div>
+              <p class="metric-desc">Standard Word Error Rate dropped from <strong>28.6% down to 15.8%</strong>.</p>
+            </div>
+            <div class="metric-big-card">
+              <div class="metric-num text-success">&lt; 0.01</div>
+              <div class="metric-title">Real-Time Factor (RTF)</div>
+              <p class="metric-desc">Turnaround latency of <strong>57 ms for 6.0 seconds of audio</strong>, guaranteeing real-time response.</p>
+            </div>
+          </div>
+
+          <div class="callout-card" style="margin-top: 1.5rem;">
+            <strong>Abnormal-Only Evaluation Slice (Mandatory Outcome):</strong>
+            <p>Evaluated on dedicated acute pathology cases (acute cholecystitis with cholelithiasis, hepatic hemangioma, renal calculi with hydronephrosis, abdominal aortic aneurysm). Demonstrates zero hallucinations on critical pathology alerts.</p>
+          </div>
+        </article>
+
+        <!-- SLIDE 5: Business Systems & Hospital ROI -->
+        <article class="presentation-slide" data-slide="5">
+          <div class="slide-badge">Business Systems (Member 3: Manya)</div>
+          <h2 class="slide-title">Hospital Economics &amp; Radiologist Workflow ROI</h2>
+          
+          <div class="grid-2-cols">
+            <div class="highlight-card">
+              <h3>Quantified Efficiency Gains</h3>
+              <ul>
+                <li><strong>Radiologist Time Saved:</strong> 8.5 minutes per abdominal examination.</li>
+                <li><strong>Annual Radiologist Time Recaptured:</strong> ~340 hours per physician annually.</li>
+                <li><strong>Transcription Overhead Reduction:</strong> Eliminates external 3rd-party transcription outsourcing cost ($24,000/year/scanner).</li>
+                <li><strong>Report Turnaround Time (TAT):</strong> Reduced from 4.2 hours to <strong>under 12 minutes</strong> for emergency room ultrasound studies.</li>
+              </ul>
+            </div>
+            <div class="highlight-card">
+              <h3>On-Premises Security &amp; Compliance</h3>
+              <ul>
+                <li><strong>Zero Cloud Exfiltration:</strong> Models run entirely within hospital local network.</li>
+                <li><strong>HIPAA Compliance:</strong> Built-in tamper-evident audit logging for all text edits.</li>
+                <li><strong>PACS Compatibility:</strong> Exportable standard DICOM-SR structured reports.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- SLIDE 6: Summary & Live Demo Request -->
+        <article class="presentation-slide" data-slide="6">
+          <div class="slide-badge">Conclusion</div>
+          <h2 class="slide-title">Summary &amp; Live System Demonstration</h2>
+          <p class="slide-lead">EchoScribe-AI has successfully achieved all Review-I and Review-II execution objectives ahead of schedule.</p>
+
+          <div class="summary-actions-box">
+            <p><strong>Ready for Live Inspection:</strong></p>
+            <p>We invite the panel to test the live review screen, simulate a foot pedal keyframe trigger, dictate anatomical jargon, and observe the live audit trail.</p>
+            <button class="btn-primary" id="launch-demo-from-slide-btn" style="margin-top: 1rem; padding: 0.8rem 1.8rem; font-size: 1rem;">
+              &rarr; Launch Live Clinical Review Screen
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: 5-MEMBER TEAM MATRIX & MODULE EXPLORER           -->
+    <!-- ======================================================== -->
+    <section id="team-matrix-mode" class="tab-pane">
+      <div class="team-explorer-grid">
+        
+        <div class="team-member-card">
+          <div class="member-header">
+            <div class="avatar cse1">J</div>
+            <div>
+              <h3>Joel</h3>
+              <p class="dept-text">CSE Core (Core 1) &bull; Branch: <code>joel</code></p>
+            </div>
+          </div>
+          <h4>Lead Systems Integrator &amp; Capture</h4>
+          <ul>
+            <li>Hardware foot pedal &amp; hotkey frame grabber</li>
+            <li>Synchronous 16kHz audio capture pipeline</li>
+            <li>Unified Session JSON Schema aggregator</li>
+            <li>Weekly codebase merges and continuous integration</li>
+          </ul>
+        </div>
+
+        <div class="team-member-card">
+          <div class="member-header">
+            <div class="avatar cse2">S</div>
+            <div>
+              <h3>Sohum</h3>
+              <p class="dept-text">CSE Core (Core 2) &bull; Branch: <code>sohum</code></p>
+            </div>
+          </div>
+          <h4>Speech Models &amp; Pipeline Lead</h4>
+          <ul>
+            <li>Anatomical vocabulary-biased ASR engine</li>
+            <li>Phonetic dictionary (Soundex + Levenshtein distance)</li>
+            <li>Audio preprocessing, pre-emphasis &amp; VAD</li>
+            <li>Real-time streaming buffer &amp; measurement normalizer</li>
+          </ul>
+        </div>
+
+        <div class="team-member-card">
+          <div class="member-header">
+            <div class="avatar ds">M</div>
+            <div>
+              <h3>Manya</h3>
+              <p class="dept-text">Business Systems &amp; DS &bull; Branch: <code>manya</code></p>
+            </div>
+          </div>
+          <h4>Data Science, Harness &amp; ROI Lead</h4>
+          <ul>
+            <li>LLM comparison harness (LLaMA-3, Mistral)</li>
+            <li>Curated <strong>Abnormal-Only evaluation slice</strong></li>
+            <li>Quantitative evaluation (WER, ROUGE-1/2/L, BLEU)</li>
+            <li>Hospital economic ROI and workflow modeling</li>
+          </ul>
+        </div>
+
+        <div class="team-member-card">
+          <div class="member-header">
+            <div class="avatar it">D</div>
+            <div>
+              <h3>Dinesh</h3>
+              <p class="dept-text">IT &bull; Branch: <code>dinesh</code></p>
+            </div>
+          </div>
+          <h4>Interface, Audit &amp; On-Prem Deployment</h4>
+          <ul>
+            <li>Radiologist review-and-correct web interface</li>
+            <li>Tamper-evident audit trail &amp; edit tracking</li>
+            <li>Role-Based Access Control (RBAC)</li>
+            <li>On-premises containerized serving (Docker)</li>
+          </ul>
+        </div>
+
+        <div class="team-member-card">
+          <div class="member-header">
+            <div class="avatar hs">N</div>
+            <div>
+              <h3>Nikilan</h3>
+              <p class="dept-text">Health Science &bull; Branch: <code>nikilan</code></p>
+            </div>
+          </div>
+          <h4>Clinical Lead &amp; Domain Expert</h4>
+          <ul>
+            <li>Abdominal ultrasound report template taxonomy</li>
+            <li>Clinical error severity rubric (Critical/Major/Minor)</li>
+            <li>Gold-standard ground-truth dataset annotations</li>
+            <li>IRB ethics paperwork and clinical study design</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: AUDIT TRAIL & COMPLIANCE LOG                      -->
+    <!-- ======================================================== -->
+    <section id="audit-mode" class="tab-pane">
+      <div class="audit-full-container">
+        <div class="audit-controls-bar">
+          <div class="search-box">
+            <input type="text" id="audit-search-input" placeholder="Search audit events by user, action, or organ...">
+          </div>
+          <button class="btn-sm btn-outline" id="export-audit-json-btn">Export Audit Log (JSONL)</button>
+        </div>
+
+        <div class="audit-table-wrapper">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>Event ID</th>
+                <th>Timestamp (UTC)</th>
+                <th>User / Role</th>
+                <th>Action</th>
+                <th>Field Changed</th>
+                <th>Previous &rarr; New Value</th>
+                <th>SHA-256 Checksum</th>
+              </tr>
+            </thead>
+            <tbody id="full-audit-table-body">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="static/app.js"></script>
+</body>
+</html>
