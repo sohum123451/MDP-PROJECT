@@ -1,0 +1,40 @@
+{
+  "rubric_name": "EchoScribe Clinical Error Severity Rubric",
+  "version": "1.0.0",
+  "domain": "Abdominal Ultrasound Reporting Quality & Safety",
+  "lead": "Nikilan (Member 5 - Health Science)",
+  "error_tiers": {
+    "tier_1_critical": {
+      "severity": "CRITICAL",
+      "penalty_points": 50,
+      "clinical_definition": "Errors directly risking catastrophic diagnostic failure, delayed emergency intervention, or incorrect surgical intervention.",
+      "criteria": [
+        "Failure to report an acute life-threatening pathology (e.g. acute cholecystitis, abdominal aortic aneurysm > 5cm, active hemoperitoneum)",
+        "Laterality transposition (confusing Right Kidney pathology with Left Kidney)",
+        "Hallucinating normal anatomy for a surgically absent or excised organ",
+        "Inventing non-existent critical masses or severe conditions"
+      ]
+    },
+    "tier_2_major": {
+      "severity": "MAJOR",
+      "penalty_points": 20,
+      "clinical_definition": "Errors altering clinical staging, leading to unwarranted secondary diagnostic imaging, or significant measurement unit distortion.",
+      "criteria": [
+        "Metric dimension distortion by factor of 10 (e.g. reporting 4.5 cm instead of 4.5 mm)",
+        "Misclassifying solid vs cystic lesion (e.g. reporting a complex renal cyst as simple fluid cyst)",
+        "Omission of positive sonographic Murphy's sign in symptomatic biliary dictation",
+        "Failure to report loss of corticomedullary differentiation in renal disease"
+      ]
+    },
+    "tier_3_minor": {
+      "severity": "MINOR",
+      "penalty_points": 5,
+      "clinical_definition": "Semantic, typographical, or non-actionable stylistic deviations that do not change patient management.",
+      "criteria": [
+        "Variations in descriptive adjectives (e.g. 'mild steatosis' vs 'minimal steatosis')",
+        "Synonym substitution for anatomical landmarks (e.g. 'hepatorenal fossa' vs 'Morison pouch')",
+        "Minor punctuation or template layout formatting differences"
+      ]
+    }
+  }
+}

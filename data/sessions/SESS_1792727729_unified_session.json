@@ -1,0 +1,97 @@
+{
+  "session_id": "SESS_1792727729",
+  "timestamp": 1792727729.932208,
+  "operator_id": "RAD_DR_ALVAREZ_042",
+  "patient_anon_id": "ANON_PT_12525",
+  "captured_frames": [
+    {
+      "frame_id": "FRAME_150_324c66",
+      "timestamp_offset_ms": 150.54,
+      "target_organ": "liver",
+      "trigger_source": "hardware_foot_pedal",
+      "resolution": {
+        "width": 1920,
+        "height": 1080
+      },
+      "ultrasound_parameters": {
+        "depth_cm": 14.0,
+        "frequency_mhz": 3.5,
+        "gain_db": 52.0
+      }
+    },
+    {
+      "frame_id": "FRAME_371_d124b3",
+      "timestamp_offset_ms": 371.67,
+      "target_organ": "gallbladder",
+      "trigger_source": "hardware_foot_pedal",
+      "resolution": {
+        "width": 1920,
+        "height": 1080
+      },
+      "ultrasound_parameters": {
+        "depth_cm": 14.0,
+        "frequency_mhz": 3.5,
+        "gain_db": 52.0
+      }
+    },
+    {
+      "frame_id": "FRAME_578_b79896",
+      "timestamp_offset_ms": 578.17,
+      "target_organ": "right_kidney",
+      "trigger_source": "hardware_foot_pedal",
+      "resolution": {
+        "width": 1920,
+        "height": 1080
+      },
+      "ultrasound_parameters": {
+        "depth_cm": 14.0,
+        "frequency_mhz": 3.5,
+        "gain_db": 52.0
+      }
+    },
+    {
+      "frame_id": "FRAME_774_3e0c9a",
+      "timestamp_offset_ms": 774.95,
+      "target_organ": "aorta",
+      "trigger_source": "hardware_foot_pedal",
+      "resolution": {
+        "width": 1920,
+        "height": 1080
+      },
+      "ultrasound_parameters": {
+        "depth_cm": 14.0,
+        "frequency_mhz": 3.5,
+        "gain_db": 52.0
+      }
+    }
+  ],
+  "audio_metadata": {
+    "duration_seconds": 0.6,
+    "sample_rate": 16000,
+    "channels": 1,
+    "total_samples": 9600,
+    "clipping_percentage": 0.0,
+    "file_path": "data\\captured_audio\\SESS_1792727729_dictation.wav"
+  },
+  "dictation_stream": {
+    "raw_transcript": "Gallbladder shows cholelithiasis. Liver shows steatosis.",
+    "biased_transcript": "Gallbladder shows cholelithiasis. Liver shows steatosis.",
+    "segments_count": 0
+  },
+  "structured_report": {
+    "organ_findings": [
+      {
+        "organ": "gallbladder",
+        "finding": "cholelithiasis",
+        "severity": "moderate"
+      },
+      {
+        "organ": "liver",
+        "finding": "steatosis",
+        "severity": "mild"
+      }
+    ],
+    "acr_template_compliance": true,
+    "overall_impression": "Cholelithiasis with mild hepatic steatosis."
+  }
+}
