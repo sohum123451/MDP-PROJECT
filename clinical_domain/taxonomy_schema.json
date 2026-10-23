@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AbdominalUltrasoundClinicalTaxonomy",
+  "description": "ACR RADS-aligned anatomical template taxonomy for abdominal ultrasound reporting. Member 5 (Nikilan - Health Science Lead).",
+  "version": "1.0.0",
+  "template_structure": {
+    "liver": {
+      "mandatory_descriptors": ["size", "echogenicity", "parenchymal_homogeneity", "surface_contour"],
+      "vascular_elements": ["portal_vein_patency", "hepatic_veins"],
+      "common_pathologies": ["steatosis", "cirrhosis", "hepatomegaly", "hemangioma", "focal_nodular_hyperplasia", "cysts"]
+    },
+    "gallbladder_and_biliary": {
+      "mandatory_descriptors": ["lumen_contents", "wall_thickness_mm", "pericholecystic_fluid", "sonographic_murphys_sign"],
+      "biliary_ducts": ["common_bile_duct_diameter_mm", "intrahepatic_ductal_dilatation"],
+      "common_pathologies": ["cholelithiasis", "cholecystitis", "choledocholithiasis", "biliary_sludge", "polyps"]
+    },
+    "pancreas": {
+      "mandatory_descriptors": ["head_body_tail_visibility", "echotexture", "pancreatic_duct_caliber_mm"],
+      "common_pathologies": ["pancreatitis", "pseudocyst", "parenchymal_calcifications", "mass_lesion"]
+    },
+    "spleen": {
+      "mandatory_descriptors": ["craniocaudal_length_cm", "parenchymal_echogenicity", "focal_lesions"],
+      "common_pathologies": ["splenomegaly", "splenic_cysts", "infarction", "granulomatous_disease"]
+    },
+    "kidneys": {
+      "mandatory_descriptors": ["bipolar_length_cm", "cortical_thickness_mm", "corticomedullary_differentiation", "collecting_system"],
+      "common_pathologies": ["nephrolithiasis", "hydronephrosis", "medical_renal_disease", "bosniak_cysts", "angiomyolipoma"]
+    },
+    "aorta_and_ivc": {
+      "mandatory_descriptors": ["proximal_mid_distal_caliber_cm", "mural_calcification", "intraluminal_thrombus"],
+      "common_pathologies": ["abdominal_aortic_aneurysm", "aortic_ectasia", "mural_thrombus", "ivc_dilatation"]
+    },
+    "peritoneal_spaces": {
+      "mandatory_descriptors": ["morisons_pouch", "splenorenal_recess", "pelvic_cul_de_sac"],
+      "common_pathologies": ["ascites", "free_peritoneal_fluid", "hemoperitoneum"]
+    }
+  }
+}
